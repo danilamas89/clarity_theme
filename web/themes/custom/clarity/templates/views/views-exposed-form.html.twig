@@ -1,0 +1,13 @@
+{#
+/**
+ * @file
+ * Theme override for a Views exposed filter form.
+ * Renders the form with at-form styling.
+ */
+#}
+{% if q is not empty %}
+  {{ q }}
+{% endif %}
+<div class="at-exposed-form">
+  {{ form }}
+</div>

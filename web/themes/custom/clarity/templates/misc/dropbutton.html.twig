@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme override for a dropbutton widget.
+ *
+ * Renders the first action as a visible button. Secondary actions appear in a
+ * floating panel on hover.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the wrapper element.
+ * - items: A list of items. Each item contains:
+ *   - attributes: HTML attributes for the list item.
+ *   - item: The rendered link.
+ */
+#}
+<div class="at-dropbutton">
+  {% if items %}
+    <span class="at-dropbutton__trigger">{{ items[0].item }}</span>
+    {% if items|length > 1 %}
+      <div class="at-dropbutton__menu" role="menu">
+        {% for item in items|slice(1) %}
+          <span class="at-dropbutton__item">{{ item.item }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}
+</div>

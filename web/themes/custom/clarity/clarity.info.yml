@@ -1,0 +1,25 @@
+name: Clarity
+type: theme
+description: 'A modern, calm, and professional Drupal administration theme. No base theme.'
+package: Custom
+core_version_requirement: ^10 || ^11
+version: 1.0.0-dev
+base theme: false
+
+libraries:
+  - clarity/global
+
+regions:
+  header: Header
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  sidebar_first: 'Sidebar navigation'
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  help: Help
+  content: Content
+  content_top: 'Content top'
+  content_bottom: 'Content bottom'
+  footer: Footer
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'

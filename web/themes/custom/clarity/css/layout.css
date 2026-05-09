@@ -1,0 +1,514 @@
+/**
+ * layout.css — Page shell: sidebar, topbar, content area, responsive.
+ * All values via --admin-* tokens only.
+ */
+
+/* ============================================================
+   Page shell
+   ============================================================ */
+
+.at-page {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--admin-bg);
+}
+
+/* ============================================================
+   Sidebar
+   ============================================================ */
+
+.at-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--admin-sidebar-width);
+  background-color: var(--admin-sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  z-index: var(--admin-z-sidebar);
+  transition: width var(--admin-transition-base);
+  overflow: hidden;
+}
+
+.at-sidebar[aria-expanded="false"],
+.at-page[data-sidebar-collapsed="true"] .at-sidebar {
+  width: var(--admin-sidebar-width-collapsed);
+}
+
+.at-sidebar__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  padding: var(--admin-space-4) var(--admin-space-4);
+  height: var(--admin-topbar-height);
+  border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  flex-shrink: 0;
+  text-decoration: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.at-sidebar__logo-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background-color: var(--admin-accent);
+  border-radius: var(--admin-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.at-sidebar__logo-text {
+  font-size: var(--admin-font-size-md);
+  font-weight: 600;
+  color: var(--admin-sidebar-active);
+  opacity: 1;
+  transition: opacity var(--admin-transition-fast);
+}
+
+.at-page[data-sidebar-collapsed="true"] .at-sidebar__logo-text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.at-sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--admin-space-3) 0;
+}
+
+.at-sidebar__footer {
+  padding: var(--admin-space-3) var(--admin-space-3);
+  border-top: 1px solid rgb(255 255 255 / 0.06);
+  flex-shrink: 0;
+}
+
+.at-sidebar__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--admin-radius-md);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--admin-sidebar-text);
+  transition: background-color var(--admin-transition-fast), color var(--admin-transition-fast);
+}
+
+.at-sidebar__toggle:hover {
+  background-color: var(--admin-sidebar-hover);
+  color: var(--admin-sidebar-active);
+}
+
+.at-sidebar__toggle:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Main area
+   ============================================================ */
+
+.at-main {
+  flex: 1;
+  margin-left: var(--admin-sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  transition: margin-left var(--admin-transition-base);
+}
+
+.at-page[data-sidebar-collapsed="true"] .at-main {
+  margin-left: var(--admin-sidebar-width-collapsed);
+}
+
+/* ============================================================
+   Topbar
+   ============================================================ */
+
+.at-topbar {
+  position: sticky;
+  top: 0;
+  height: var(--admin-topbar-height);
+  background-color: var(--admin-surface);
+  border-bottom: 0.5px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-4);
+  padding: 0 var(--admin-space-6);
+  z-index: var(--admin-z-topbar);
+  flex-shrink: 0;
+}
+
+.at-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.at-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Breadcrumb bar — sits between topbar and content
+   ============================================================ */
+
+.at-breadcrumb-bar {
+  padding: var(--admin-space-3) var(--admin-space-6);
+}
+
+/* ============================================================
+   Page header — title row + local actions + tabs
+   ============================================================ */
+
+.at-page-header {
+  margin-bottom: var(--admin-space-5);
+}
+
+/* The region wrapper is the actual layout container */
+.at-page-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-4);
+}
+
+/* Visual order: title (0) → tabs (1) → actions button (2) */
+.at-page-header > div > div:has(.at-local-tasks) {
+  order: 1;
+}
+
+.at-page-header > div > div:has(.at-local-action) {
+  order: 2;
+}
+
+/* Page title */
+.at-page-header h1 {
+  font-size: var(--admin-font-size-xl);
+  font-weight: 700;
+  color: var(--admin-text);
+  margin: 0;
+}
+
+/* Local actions — "Add content" etc. */
+.at-page-header nav ul {
+  display: flex;
+  gap: var(--admin-space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.at-page-header nav ul a,
+.at-page-header nav ul button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  padding: var(--admin-space-2) var(--admin-space-4);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-md);
+  font-weight: 500;
+  color: #ffffff;
+  background-color: var(--admin-accent);
+  border: 1px solid var(--admin-accent);
+  border-radius: var(--admin-radius-md);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast);
+}
+
+.at-page-header nav ul a:hover,
+.at-page-header nav ul button:hover {
+  background-color: var(--admin-accent-text);
+  border-color: var(--admin-accent-text);
+  text-decoration: none;
+  color: #ffffff;
+}
+
+/* Visual order: title (default) → tabs → actions button */
+.at-page-header > div:has(.at-local-tasks) {
+  order: 1;
+  flex-basis: 100%;
+}
+
+.at-page-header > div:has(.at-local-action) {
+  order: 2;
+}
+
+/* ============================================================
+   View layout
+   ============================================================ */
+
+.at-view__filters {
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-4) var(--admin-space-5);
+  margin-bottom: var(--admin-space-4);
+}
+
+/* Target the actual Drupal form element class directly */
+.at-view__filters .views-exposed-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--admin-space-3);
+}
+
+/* Each form item is a flex child — side by side */
+.at-view__filters .views-exposed-form > .js-form-item,
+.at-view__filters .views-exposed-form > .form-item {
+  flex: 1 1 160px;
+  margin: 0;
+  width: auto;
+  min-width: 0;
+}
+
+.at-view__filters .views-exposed-form label {
+  display: block;
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: var(--admin-text-2);
+  margin-bottom: var(--admin-space-1);
+}
+
+/* Inputs fill their flex item */
+.at-view__filters .views-exposed-form input:not([type="submit"]),
+.at-view__filters .views-exposed-form select {
+  width: 100%;
+}
+
+/* Actions group — stays compact, no grow */
+.at-view__filters .views-exposed-form .form-actions {
+  display: flex;
+  gap: var(--admin-space-2);
+  align-items: flex-end;
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.at-view__content {
+  margin-bottom: var(--admin-space-4);
+}
+
+/* Bulk operations form — reorder so table comes before the action dropdown */
+.at-view .views-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.at-view .views-form .at-table-wrapper {
+  order: 1;
+  overflow: hidden;
+}
+
+/* Action dropdown + apply button — moved below the table */
+.at-view .views-form [data-drupal-selector="edit-header"] {
+  order: 2;
+  margin-top: var(--admin-space-4);
+}
+
+.at-view .views-form [data-drupal-selector="edit-header"] > div {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--admin-space-3);
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-4) var(--admin-space-5);
+}
+
+.at-view .views-form [data-drupal-selector="edit-header"] select {
+  width: auto;
+}
+
+.at-view .views-form [data-drupal-selector="edit-header"] .form-actions {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* Hide the redundant duplicate submit at the bottom of the form */
+.at-view .views-form form > .form-actions {
+  display: none;
+}
+
+.at-view__empty {
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-8);
+  text-align: center;
+  color: var(--admin-text-2);
+  font-size: var(--admin-font-size-md);
+}
+
+.at-view__pager {
+  display: flex;
+  justify-content: center;
+}
+
+/* ============================================================
+   Content area
+   ============================================================ */
+
+.at-content {
+  flex: 1;
+  padding: var(--admin-space-6);
+  width: 100%;
+}
+
+.at-content__inner {
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Content header (page title + actions)
+   ============================================================ */
+
+.at-content-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--admin-space-4);
+  margin-bottom: var(--admin-space-6);
+}
+
+.at-content-header__title {
+  font-size: var(--admin-font-size-xl);
+  font-weight: 600;
+  color: var(--admin-text);
+  line-height: 1.2;
+}
+
+.at-content-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Two-column layout (edit form pattern)
+   ============================================================ */
+
+.at-layout-two-col {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--admin-space-6);
+  align-items: start;
+}
+
+.at-layout-two-col__main {
+  min-width: 0;
+}
+
+.at-layout-two-col__aside {
+  position: sticky;
+  top: calc(var(--admin-topbar-height) + var(--admin-space-6));
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-4);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* sm */
+@media (min-width: 640px) {
+  .at-content {
+    padding: var(--admin-space-6) var(--admin-space-8);
+  }
+}
+
+/* md */
+@media (max-width: 767px) {
+  .at-sidebar {
+    transform: translateX(-100%);
+    transition: transform var(--admin-transition-base), width var(--admin-transition-base);
+  }
+
+  .at-sidebar.is-open {
+    transform: translateX(0);
+    width: var(--admin-sidebar-width);
+  }
+
+  .at-main {
+    margin-left: 0;
+  }
+
+  .at-layout-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .at-layout-two-col__aside {
+    position: static;
+  }
+}
+
+/* lg */
+@media (min-width: 1024px) {
+  .at-layout-two-col {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+/* xl */
+@media (min-width: 1280px) {
+  .at-layout-two-col {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+/* ============================================================
+   Mobile sidebar overlay
+   ============================================================ */
+
+.at-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 0.4);
+  z-index: calc(var(--admin-z-sidebar) - 1);
+}
+
+@media (max-width: 767px) {
+  .at-sidebar-overlay.is-active {
+    display: block;
+  }
+}
+
+/* ============================================================
+   RTL support
+   ============================================================ */
+
+[dir="rtl"] .at-sidebar {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .at-main {
+  margin-left: 0;
+  margin-right: var(--admin-sidebar-width);
+}
+
+[dir="rtl"] .at-page[data-sidebar-collapsed="true"] .at-main {
+  margin-right: var(--admin-sidebar-width-collapsed);
+}

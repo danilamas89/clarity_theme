@@ -1,0 +1,222 @@
+/**
+ * buttons.css — Button variants.
+ * All values via --admin-* tokens only.
+ */
+
+/* ============================================================
+   Base button
+   ============================================================ */
+
+.at-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--admin-space-2);
+  padding: var(--admin-space-2) var(--admin-space-3-5);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-md);
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: var(--admin-radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast),
+    color var(--admin-transition-fast),
+    box-shadow var(--admin-transition-fast);
+  user-select: none;
+}
+
+.at-btn:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Primary
+   ============================================================ */
+
+.at-btn-primary {
+  background-color: var(--admin-accent);
+  border-color: var(--admin-accent);
+  color: #ffffff;
+}
+
+.at-btn-primary:hover {
+  background-color: var(--admin-accent-text);
+  border-color: var(--admin-accent-text);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.at-btn-primary:active {
+  background-color: var(--admin-accent-text);
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.2);
+}
+
+.at-btn-primary:disabled,
+.at-btn-primary[aria-disabled="true"] {
+  background-color: var(--admin-text-3);
+  border-color: var(--admin-text-3);
+  color: #ffffff;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Secondary
+   ============================================================ */
+
+.at-btn-secondary {
+  background-color: var(--admin-surface);
+  border-color: var(--admin-border);
+  border-width: 0.5px;
+  color: var(--admin-text);
+}
+
+.at-btn-secondary:hover {
+  background-color: var(--admin-surface-2);
+  border-color: var(--admin-text-3);
+  color: var(--admin-text);
+  text-decoration: none;
+}
+
+.at-btn-secondary:active {
+  background-color: var(--admin-surface-2);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.at-btn-secondary:disabled,
+.at-btn-secondary[aria-disabled="true"] {
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Danger
+   ============================================================ */
+
+.at-btn-danger {
+  background-color: transparent;
+  border-color: var(--admin-danger);
+  border-width: 0.5px;
+  color: var(--admin-danger);
+}
+
+.at-btn-danger:hover {
+  background-color: var(--admin-danger-bg);
+  border-color: var(--admin-danger);
+  color: var(--admin-danger);
+  text-decoration: none;
+}
+
+.at-btn-danger:active {
+  background-color: var(--admin-danger-bg);
+}
+
+.at-btn-danger:disabled,
+.at-btn-danger[aria-disabled="true"] {
+  color: var(--admin-text-3);
+  border-color: var(--admin-text-3);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Ghost
+   ============================================================ */
+
+.at-btn-ghost {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--admin-text-2);
+}
+
+.at-btn-ghost:hover {
+  background-color: var(--admin-surface-2);
+  color: var(--admin-text);
+  text-decoration: none;
+}
+
+.at-btn-ghost:active {
+  background-color: var(--admin-border);
+}
+
+.at-btn-ghost:disabled,
+.at-btn-ghost[aria-disabled="true"] {
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Sizes
+   ============================================================ */
+
+.at-btn-sm {
+  padding: var(--admin-space-1) var(--admin-space-3);
+  font-size: var(--admin-font-size-sm);
+  border-radius: var(--admin-radius-sm);
+}
+
+.at-btn-lg {
+  padding: var(--admin-space-3) var(--admin-space-6);
+  font-size: var(--admin-font-size-base);
+  border-radius: var(--admin-radius-md);
+}
+
+/* ============================================================
+   Icon-only button
+   ============================================================ */
+
+.at-btn-icon {
+  padding: var(--admin-space-2);
+  width: 32px;
+  height: 32px;
+}
+
+.at-btn-icon.at-btn-sm {
+  width: 26px;
+  height: 26px;
+  padding: var(--admin-space-1);
+}
+
+.at-btn-icon.at-btn-lg {
+  width: 40px;
+  height: 40px;
+  padding: var(--admin-space-2);
+}
+
+/* ============================================================
+   Button group
+   ============================================================ */
+
+.at-btn-group {
+  display: inline-flex;
+}
+
+.at-btn-group .at-btn {
+  border-radius: 0;
+}
+
+.at-btn-group .at-btn:first-child {
+  border-radius: var(--admin-radius-md) 0 0 var(--admin-radius-md);
+}
+
+.at-btn-group .at-btn:last-child {
+  border-radius: 0 var(--admin-radius-md) var(--admin-radius-md) 0;
+}
+
+.at-btn-group .at-btn + .at-btn {
+  margin-left: -1px;
+}
+
+.at-btn-group .at-btn:hover,
+.at-btn-group .at-btn:focus-visible {
+  position: relative;
+  z-index: 1;
+}

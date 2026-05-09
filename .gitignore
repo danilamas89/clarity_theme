@@ -1,0 +1,14 @@
+# Ignore everything
+*
+
+# Unblock parent directories
+!web/
+!web/themes/
+!web/themes/custom/
+!web/themes/custom/clarity/
+!web/themes/custom/clarity/**
+
+# Project meta
+!.gitignore
+!README.md
+!CLAUDE.md

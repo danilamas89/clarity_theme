@@ -1,0 +1,166 @@
+{#
+/**
+ * @file
+ * Theme override for the page shell layout.
+ *
+ * The admin theme uses a fixed sidebar + topbar + content area layout.
+ * Sidebar collapsed state is managed via Alpine.js $store('sidebar').
+ *
+ * Variables:
+ * - page.header: Items for the header region.
+ * - page.primary_menu: Items for the primary menu region.
+ * - page.sidebar_first: Items for the sidebar navigation region.
+ * - page.breadcrumb: Items for the breadcrumb region.
+ * - page.highlighted: Items for the highlighted region.
+ * - page.help: Dynamic help text (usually from modules).
+ * - page.content: The main content of the current page.
+ * - page.content_top: Items above the main content.
+ * - page.content_bottom: Items below the main content.
+ * - page.footer: Items for the footer region.
+ * - node: The node entity, if the current page is a node.
+ */
+#}
+<div class="at-page" x-data :data-sidebar-collapsed="$store.sidebar.collapsed">
+
+  {# ===================== Sidebar ===================== #}
+  <aside class="at-sidebar"
+    role="navigation"
+    :aria-expanded="!$store.sidebar.collapsed"
+    aria-label="{{ 'Site navigation'|t }}">
+
+    {# Logo / site name #}
+    <a class="at-sidebar__logo" href="{{ path('<front>') }}">
+      <span class="at-sidebar__logo-icon" aria-hidden="true">
+        {# Replace with theme SVG logo #}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </span>
+      <span class="at-sidebar__logo-text">
+        {{ 'Admin'|t }}
+      </span>
+    </a>
+
+    {# Navigation #}
+    <div class="at-sidebar__nav">
+      {% if page.sidebar_first %}
+        {{ page.sidebar_first }}
+      {% endif %}
+      {% if page.primary_menu %}
+        {{ page.primary_menu }}
+      {% endif %}
+    </div>
+
+    {# Sidebar footer: collapse toggle #}
+    <div class="at-sidebar__footer">
+      <button class="at-sidebar__toggle"
+        @click="$store.sidebar.toggle()"
+        :aria-label="$store.sidebar.collapsed ? '{{ 'Expand sidebar'|t }}' : '{{ 'Collapse sidebar'|t }}'"
+        :title="$store.sidebar.collapsed ? '{{ 'Expand sidebar'|t }}' : '{{ 'Collapse sidebar'|t }}'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path x-show="!$store.sidebar.collapsed" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+          <path x-show="$store.sidebar.collapsed" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+
+  </aside>
+
+  {# Mobile overlay — closes sidebar on tap #}
+  <div class="at-sidebar-overlay"
+    :class="{ 'is-active': !$store.sidebar.collapsed }"
+    @click="$store.sidebar.toggle()"
+    aria-hidden="true"></div>
+
+  {# ===================== Main area ===================== #}
+  <div class="at-main">
+
+    {# Topbar #}
+    <header class="at-topbar" role="banner">
+      <div class="at-topbar__left">
+      </div>
+
+      <div class="at-topbar__right">
+
+        {% if page.header %}
+          {{ page.header }}
+        {% endif %}
+
+        {# User menu #}
+        {% if logged_in %}
+          <div class="at-user-menu" x-data="{ open: false }">
+            <button class="at-user-btn"
+              @click="open = !open"
+              @click.outside="open = false"
+              :aria-expanded="open"
+              aria-haspopup="true"
+              aria-controls="at-user-dropdown">
+              <span class="at-user-avatar" aria-hidden="true">
+                {{ user.accountName|first|upper }}
+              </span>
+              <span>{{ user.accountName }}</span>
+            </button>
+            <div class="at-user-dropdown"
+              id="at-user-dropdown"
+              x-show="open"
+              x-transition
+              role="menu">
+              <a href="{{ path('user.page') }}" role="menuitem">{{ 'My account'|t }}</a>
+              <div class="at-user-dropdown__divider"></div>
+              <a href="{{ path('user.logout') }}" role="menuitem">{{ 'Log out'|t }}</a>
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    </header>
+
+    {# Breadcrumb — below topbar, above content #}
+    {% if page.breadcrumb %}
+      <div class="at-breadcrumb-bar">
+        {{ page.breadcrumb }}
+      </div>
+    {% endif %}
+
+    {# Content area #}
+    <main id="main-content" class="at-content" role="main">
+      <div class="at-content__inner">
+
+        {# Page header: title + local actions + local tasks #}
+        {% if page.content_top %}
+          <div class="at-page-header">
+            {{ page.content_top }}
+          </div>
+        {% endif %}
+
+        {# Status messages #}
+        {% if page.highlighted %}
+          <div class="at-highlighted">{{ page.highlighted }}</div>
+        {% endif %}
+
+        {# Help text #}
+        {% if page.help %}
+          <div class="at-help">{{ page.help }}</div>
+        {% endif %}
+
+        {{ page.content }}
+
+        {% if page.content_bottom %}
+          {{ page.content_bottom }}
+        {% endif %}
+
+      </div>
+    </main>
+
+    {# Footer #}
+    {% if page.footer %}
+      <footer class="at-footer" role="contentinfo">
+        {{ page.footer }}
+      </footer>
+    {% endif %}
+
+  </div>{# /.at-main #}
+
+</div>{# /.at-page #}

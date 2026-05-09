@@ -1,0 +1,614 @@
+/**
+ * navigation.css — Sidebar nav items, tabs, breadcrumb, pager, user menu.
+ * All values via --admin-* tokens only.
+ */
+
+/* ============================================================
+   Sidebar navigation items
+   ============================================================ */
+
+.at-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.at-nav-section {
+  margin-bottom: var(--admin-space-4);
+}
+
+.at-nav-section-label {
+  font-size: var(--admin-font-size-2xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--admin-sidebar-text);
+  opacity: 0.6;
+  padding: 0 var(--admin-space-3-5);
+  margin-bottom: var(--admin-space-2);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.at-nav-item {
+  list-style: none;
+}
+
+.at-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  padding: var(--admin-space-2) var(--admin-space-3-5);
+  margin: 1px var(--admin-space-2);
+  font-size: var(--admin-font-size-md);
+  font-weight: 400;
+  color: var(--admin-sidebar-text);
+  text-decoration: none;
+  border-radius: var(--admin-radius-md);
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    background-color var(--admin-transition-fast),
+    color var(--admin-transition-fast);
+  position: relative;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--admin-font);
+}
+
+.at-nav-link__chevron {
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0.5;
+}
+
+/* ============================================================
+   Flyout submenu — shown on hover (desktop only)
+   ============================================================ */
+
+.at-nav-item {
+  position: relative;
+}
+
+.at-nav-flyout {
+  display: none;
+  position: fixed;
+  min-width: 200px;
+  max-width: 260px;
+  background-color: #252238;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-lg);
+  z-index: var(--admin-z-dropdown);
+  padding: var(--admin-space-2) 0;
+  /* top is set dynamically via JS — fallback to 0 */
+}
+
+/* Bridge: invisible gap filler so mouse can travel from sidebar to flyout */
+.at-nav-flyout::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 100%;
+  width: var(--admin-space-3);
+  height: 100%;
+}
+
+/* Nested flyout — also fixed, JS positions it to the right of its parent flyout */
+.at-nav-flyout .at-nav-flyout {
+  margin-left: var(--admin-space-1);
+}
+
+.at-nav-item:hover > .at-nav-flyout {
+  display: block;
+}
+
+.at-nav-flyout__label {
+  font-size: var(--admin-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--admin-sidebar-text);
+  opacity: 0.5;
+  padding: var(--admin-space-2) var(--admin-space-4) var(--admin-space-1);
+}
+
+/* Sub-items inside flyout */
+.at-nav-flyout .at-nav-sub {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.at-nav-flyout .at-nav-link {
+  padding: var(--admin-space-2) var(--admin-space-4);
+  border-radius: 0;
+  font-size: var(--admin-font-size-md);
+  white-space: normal;
+  overflow: visible;
+}
+
+/* ============================================================
+   Mobile — hide flyouts, items are direct links only
+   ============================================================ */
+
+@media (max-width: 767px) {
+  .at-nav-flyout {
+    display: none !important;
+  }
+
+  .at-nav-link__chevron {
+    display: none;
+  }
+}
+
+.at-nav-link:hover {
+  background-color: var(--admin-sidebar-hover);
+  color: var(--admin-sidebar-active);
+  text-decoration: none;
+}
+
+.at-nav-link:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: -2px;
+}
+
+.at-nav-link.is-active,
+.at-nav-link[aria-current="page"] {
+  background-color: var(--admin-sidebar-active-bg);
+  color: var(--admin-sidebar-active);
+  font-weight: 500;
+}
+
+.at-nav-link.is-active::before,
+.at-nav-link[aria-current="page"]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background-color: var(--admin-accent);
+  border-radius: 0 var(--admin-radius-sm) var(--admin-radius-sm) 0;
+}
+
+.at-nav-link__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.at-nav-link.is-active .at-nav-link__icon,
+.at-nav-link:hover .at-nav-link__icon {
+  opacity: 1;
+}
+
+.at-nav-link__text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.at-nav-link__badge {
+  flex-shrink: 0;
+  font-size: var(--admin-font-size-xs);
+  background-color: var(--admin-accent);
+  color: #ffffff;
+  border-radius: var(--admin-radius-full);
+  padding: 1px 6px;
+  font-weight: 600;
+}
+
+/* Collapsed sidebar — hide text, center icon */
+.at-page[data-sidebar-collapsed="true"] .at-nav-section-label,
+.at-page[data-sidebar-collapsed="true"] .at-nav-link__text,
+.at-page[data-sidebar-collapsed="true"] .at-nav-link__badge {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.at-page[data-sidebar-collapsed="true"] .at-nav-link {
+  justify-content: center;
+  padding: var(--admin-space-3) var(--admin-space-3);
+}
+
+/* ============================================================
+   Nested nav (submenu)
+   ============================================================ */
+
+.at-nav-sub {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.at-nav-sub .at-nav-link {
+  padding-left: calc(var(--admin-space-4) + 18px + var(--admin-space-3));
+  font-size: var(--admin-font-size-sm);
+}
+
+/* ============================================================
+   Local tasks / Tabs
+   ============================================================ */
+
+.at-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--admin-border);
+  margin-bottom: var(--admin-space-6);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.at-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.at-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--admin-space-3) var(--admin-space-4);
+  font-size: var(--admin-font-size-md);
+  font-weight: 500;
+  color: var(--admin-text-2);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  transition:
+    color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast);
+}
+
+.at-tab:hover {
+  color: var(--admin-text);
+  text-decoration: none;
+}
+
+.at-tab:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: -2px;
+}
+
+.at-tab.is-active,
+.at-tab[aria-current="page"] {
+  color: var(--admin-accent);
+  border-bottom-color: var(--admin-accent);
+}
+
+/* ============================================================
+   Local tasks block wrapper
+   ============================================================ */
+
+.at-local-tasks {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--admin-border);
+  margin-bottom: var(--admin-space-4);
+}
+
+.at-local-tasks::-webkit-scrollbar {
+  display: none;
+}
+
+.at-local-tasks ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+}
+
+.at-local-tasks li {
+  list-style: none;
+}
+
+.at-local-tasks a {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--admin-space-3) var(--admin-space-4);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: var(--admin-text-2);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition:
+    color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast);
+}
+
+.at-local-tasks a:hover {
+  color: var(--admin-text);
+  text-decoration: none;
+}
+
+.at-local-tasks a:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: -2px;
+}
+
+.at-local-tasks a.is-active,
+.at-local-tasks a[aria-current="page"] {
+  color: var(--admin-accent);
+  border-bottom-color: var(--admin-accent);
+}
+
+/* ============================================================
+   Local actions (e.g. "Add content" button)
+   ============================================================ */
+
+.at-local-action {
+  list-style: none;
+}
+
+.at-local-action a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--admin-space-2) var(--admin-space-4);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  font-family: var(--admin-font);
+  line-height: 1.5;
+  border-radius: var(--admin-radius-md);
+  border: 1px solid var(--admin-accent);
+  background-color: var(--admin-accent);
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast);
+}
+
+.at-local-action a:hover {
+  background-color: var(--admin-accent-text);
+  border-color: var(--admin-accent-text);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.at-local-action a:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Node add list — content types as tabs
+   ============================================================ */
+
+.at-node-add-tabs a {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--admin-space-3) var(--admin-space-4);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: var(--admin-text-2);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition:
+    color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast);
+}
+
+.at-node-add-tabs a:hover {
+  color: var(--admin-text);
+  text-decoration: none;
+}
+
+.at-node-add-tabs a:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: -2px;
+}
+
+/* ============================================================
+   Breadcrumb
+   ============================================================ */
+
+.at-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  flex-wrap: wrap;
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-2);
+  margin-bottom: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.at-breadcrumb__item {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+}
+
+.at-breadcrumb__item::after {
+  content: '/';
+  color: var(--admin-text-3);
+}
+
+.at-breadcrumb__item:last-child::after {
+  display: none;
+}
+
+.at-breadcrumb__link {
+  color: var(--admin-text-2);
+  text-decoration: none;
+  transition: color var(--admin-transition-fast);
+}
+
+.at-breadcrumb__link:hover {
+  color: var(--admin-accent);
+}
+
+.at-breadcrumb__current {
+  color: var(--admin-text);
+  font-weight: 500;
+}
+
+/* ============================================================
+   Pager
+   ============================================================ */
+
+.at-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--admin-space-1);
+  padding: var(--admin-space-5) 0;
+  list-style: none;
+}
+
+.at-pager__item {
+  list-style: none;
+}
+
+.at-pager__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 var(--admin-space-2);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: var(--admin-text-2);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  text-decoration: none;
+  transition:
+    background-color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast),
+    color var(--admin-transition-fast);
+}
+
+.at-pager__link:hover {
+  background-color: var(--admin-surface-2);
+  border-color: var(--admin-text-3);
+  color: var(--admin-text);
+  text-decoration: none;
+}
+
+.at-pager__link:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: 2px;
+}
+
+.at-pager__link.is-active,
+.at-pager__item.is-active .at-pager__link {
+  background-color: var(--admin-accent);
+  border-color: var(--admin-accent);
+  color: #ffffff;
+}
+
+.at-pager__link:disabled,
+.at-pager__item.is-disabled .at-pager__link {
+  color: var(--admin-text-3);
+  border-color: var(--admin-border);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   User menu (topbar dropdown)
+   ============================================================ */
+
+.at-user-menu {
+  position: relative;
+}
+
+.at-user-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  padding: var(--admin-space-2) var(--admin-space-3);
+  background: none;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: var(--admin-text);
+  transition:
+    background-color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast);
+}
+
+.at-user-btn:hover {
+  background-color: var(--admin-surface-2);
+  border-color: var(--admin-text-3);
+}
+
+.at-user-btn:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: 2px;
+}
+
+.at-user-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--admin-radius-full);
+  background-color: var(--admin-accent);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--admin-font-size-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.at-user-dropdown {
+  position: absolute;
+  top: calc(100% + var(--admin-space-2));
+  right: 0;
+  min-width: 180px;
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-lg);
+  z-index: var(--admin-z-dropdown);
+  overflow: hidden;
+}
+
+.at-user-dropdown a {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  padding: var(--admin-space-3) var(--admin-space-4);
+  font-size: var(--admin-font-size-md);
+  color: var(--admin-text);
+  text-decoration: none;
+  transition: background-color var(--admin-transition-fast);
+}
+
+.at-user-dropdown a:hover {
+  background-color: var(--admin-surface-2);
+}
+
+.at-user-dropdown a:focus-visible {
+  outline: 2px solid var(--admin-border-focus);
+  outline-offset: -2px;
+}
+
+.at-user-dropdown__divider {
+  height: 1px;
+  background-color: var(--admin-border);
+  margin: var(--admin-space-1) 0;
+}
+
+[dir="rtl"] .at-user-dropdown {
+  right: auto;
+  left: 0;
+}

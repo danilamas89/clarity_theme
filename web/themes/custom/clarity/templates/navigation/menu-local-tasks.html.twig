@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Theme override for primary and secondary local tasks (tabs).
+ *
+ * Available variables:
+ * - primary: Rendered primary local tasks links.
+ * - secondary: Rendered secondary local tasks links.
+ */
+#}
+{% if primary %}
+  <nav class="at-local-tasks" aria-label="{{ 'Page tabs'|t }}">
+    {{- primary -}}
+  </nav>
+{% endif %}
+{% if secondary %}
+  <nav class="at-local-tasks at-local-tasks--secondary" aria-label="{{ 'Secondary tabs'|t }}">
+    {{- secondary -}}
+  </nav>
+{% endif %}

@@ -1,0 +1,92 @@
+{#
+/**
+ * @file
+ * Theme override for a pager.
+ *
+ * Available variables:
+ * - heading_id: Unique ID for the heading that labels this pager.
+ * - items: List of pager items.
+ *   - first, previous, next, last: Pager items (optional).
+ *   - pages: Page items, keyed by page number.
+ * - current: The page number of the current page.
+ * - ellipses: (object) Whether to add ellipses before/after the page list.
+ */
+#}
+{% if items %}
+  <nav class="at-pager" role="navigation" aria-labelledby="{{ heading_id }}">
+    <h4 id="{{ heading_id }}" class="visually-hidden">{{ 'Pagination'|t }}</h4>
+    <ul class="at-pager">
+
+      {# First page #}
+      {% if items.first %}
+        <li class="at-pager__item at-pager__item--first">
+          <a class="at-pager__link" href="{{ items.first.href }}"
+            aria-label="{{ 'First page'|t }}">
+            {{- items.first.text ? items.first.text : '«'|t -}}
+          </a>
+        </li>
+      {% endif %}
+
+      {# Previous page #}
+      {% if items.previous %}
+        <li class="at-pager__item at-pager__item--previous">
+          <a class="at-pager__link" href="{{ items.previous.href }}"
+            aria-label="{{ 'Previous page'|t }}" rel="prev">
+            {{- items.previous.text ? items.previous.text : '‹'|t -}}
+          </a>
+        </li>
+      {% endif %}
+
+      {# Ellipsis before #}
+      {% if ellipses.previous %}
+        <li class="at-pager__item at-pager__item--ellipsis" aria-hidden="true">
+          <span class="at-pager__link">…</span>
+        </li>
+      {% endif %}
+
+      {# Numbered pages #}
+      {% for key, item in items.pages %}
+        <li class="at-pager__item{% if current == key %} is-active{% endif %}">
+          {% if current == key %}
+            <span class="at-pager__link" aria-current="page" aria-label="{{ 'Page @num'|t({'@num': key}) }}">
+              {{- key -}}
+            </span>
+          {% else %}
+            <a class="at-pager__link" href="{{ item.href }}"
+              aria-label="{{ 'Page @num'|t({'@num': key}) }}">
+              {{- key -}}
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      {# Ellipsis after #}
+      {% if ellipses.next %}
+        <li class="at-pager__item at-pager__item--ellipsis" aria-hidden="true">
+          <span class="at-pager__link">…</span>
+        </li>
+      {% endif %}
+
+      {# Next page #}
+      {% if items.next %}
+        <li class="at-pager__item at-pager__item--next">
+          <a class="at-pager__link" href="{{ items.next.href }}"
+            aria-label="{{ 'Next page'|t }}" rel="next">
+            {{- items.next.text ? items.next.text : '›'|t -}}
+          </a>
+        </li>
+      {% endif %}
+
+      {# Last page #}
+      {% if items.last %}
+        <li class="at-pager__item at-pager__item--last">
+          <a class="at-pager__link" href="{{ items.last.href }}"
+            aria-label="{{ 'Last page'|t }}">
+            {{- items.last.text ? items.last.text : '»'|t -}}
+          </a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </nav>
+{% endif %}

@@ -1,0 +1,58 @@
+{#
+/**
+ * @file
+ * Theme override for the main Views wrapper.
+ * Wraps the view in a card surface with exposed filters above the table.
+ */
+#}
+{%
+  set classes = [
+    'at-view',
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {% if exposed %}
+    <div class="at-view__filters">
+      {{ exposed }}
+    </div>
+  {% endif %}
+
+  {% if header %}
+    <div class="at-view__header">
+      {{ header }}
+    </div>
+  {% endif %}
+
+  {{ attachment_before }}
+
+  {% if rows %}
+    <div class="at-view__content">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="at-view__empty">
+      {{ empty }}
+    </div>
+  {% endif %}
+
+  {% if pager %}
+    <div class="at-view__pager">
+      {{ pager }}
+    </div>
+  {% endif %}
+
+  {{ attachment_after }}
+  {{ more }}
+
+  {% if footer %}
+    <div class="at-view__footer">
+      {{ footer }}
+    </div>
+  {% endif %}
+
+  {{ feed_icons }}
+</div>

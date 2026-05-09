@@ -1,0 +1,312 @@
+/**
+ * tables.css — Data tables for Views, content listings.
+ * All values via --admin-* tokens only.
+ */
+
+/* ============================================================
+   Table wrapper (enables horizontal scroll on small screens)
+   ============================================================ */
+
+.at-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  background-color: var(--admin-surface);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+/* ============================================================
+   Base table
+   ============================================================ */
+
+.at-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--admin-font-size-base);
+  color: var(--admin-text);
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+
+.at-table thead {
+  background-color: var(--admin-bg);
+  border-bottom: 0.5px solid var(--admin-border);
+}
+
+.at-table thead th {
+  padding: var(--admin-space-2-5) var(--admin-space-4);
+  font-size: var(--admin-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--admin-text-3);
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Sortable column header */
+.at-table thead th a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-1);
+  color: var(--admin-text-2);
+  text-decoration: none;
+  transition: color var(--admin-transition-fast);
+}
+
+.at-table thead th a:hover {
+  color: var(--admin-text);
+}
+
+.at-table thead th.is-active a {
+  color: var(--admin-accent);
+}
+
+/* ============================================================
+   Body rows
+   ============================================================ */
+
+.at-table tbody tr {
+  border-bottom: 0.5px solid var(--admin-border);
+  transition: background-color var(--admin-transition-fast);
+}
+
+.at-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.at-table tbody tr:hover {
+  background-color: var(--admin-surface-2);
+}
+
+.at-table tbody td {
+  padding: var(--admin-space-2-5) var(--admin-space-4);
+  font-size: var(--admin-font-size-md);
+  color: var(--admin-text);
+  vertical-align: middle;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.at-table tfoot {
+  border-top: 0.5px solid var(--admin-border);
+  background-color: var(--admin-surface-2);
+}
+
+.at-table tfoot td {
+  padding: var(--admin-space-3) var(--admin-space-4);
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-2);
+}
+
+/* ============================================================
+   Select column (checkboxes)
+   ============================================================ */
+
+.at-table .at-table__col-select {
+  width: 40px;
+  padding-right: 0;
+}
+
+/* ============================================================
+   Operations column
+   ============================================================ */
+
+.at-table .at-table__col-ops {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* ============================================================
+   Dropbutton — CSS-only hover dropdown
+   Targets Drupal's rendered .dropbutton-wrapper structure directly.
+   ============================================================ */
+
+.dropbutton-wrapper {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Hide Drupal's arrow toggle */
+.dropbutton-toggle {
+  display: none !important;
+}
+
+/* Force secondary actions visible — overrides JS inline display:none */
+.dropbutton-action.secondary-action {
+  display: block !important;
+}
+
+.dropbutton {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The widget is in normal flow so the wrapper auto-sizes to its content.
+   JS switches it to position:fixed on hover to escape table overflow clipping. */
+.dropbutton-widget {
+  position: relative;
+  display: inline-block;
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  overflow: clip;
+  max-height: 26px;
+  z-index: var(--admin-z-dropdown);
+  transition:
+    max-height var(--admin-transition-fast),
+    box-shadow var(--admin-transition-fast);
+}
+
+.dropbutton-wrapper:hover .dropbutton-widget,
+.dropbutton-wrapper:focus-within .dropbutton-widget {
+  max-height: 200px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.1);
+}
+
+/* Primary action — "Edit" button with chevron */
+.dropbutton-action:first-child a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-1);
+  padding: 0 var(--admin-space-3);
+  height: 26px;
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  font-family: var(--admin-font);
+  color: var(--admin-text-2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--admin-transition-fast);
+}
+
+.dropbutton-action:first-child a::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  opacity: 0.5;
+  transition: transform var(--admin-transition-fast);
+}
+
+.dropbutton-wrapper:hover .dropbutton-action:first-child a,
+.dropbutton-wrapper:focus-within .dropbutton-action:first-child a {
+  color: var(--admin-text);
+}
+
+.dropbutton-wrapper:hover .dropbutton-action:first-child a::after {
+  transform: rotate(-135deg) translateY(2px);
+  opacity: 0.7;
+}
+
+/* Divider between primary and secondary actions */
+.dropbutton-action.secondary-action:first-of-type {
+  border-top: 1px solid var(--admin-border);
+}
+
+/* Secondary menu items */
+.dropbutton-action.secondary-action a {
+  display: block;
+  padding: var(--admin-space-2) var(--admin-space-3);
+  font-size: var(--admin-font-size-sm);
+  font-family: var(--admin-font);
+  color: var(--admin-text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--admin-transition-fast);
+}
+
+.dropbutton-action.secondary-action a:hover {
+  background-color: var(--admin-surface-2);
+  text-decoration: none;
+}
+
+/* Delete — danger color */
+.dropbutton-action a[href*="/delete"] {
+  color: var(--admin-danger);
+}
+
+.dropbutton-action a[href*="/delete"]:hover {
+  background-color: var(--admin-danger-bg);
+}
+
+/* ============================================================
+   Striped variant
+   ============================================================ */
+
+.at-table--striped tbody tr:nth-child(even) {
+  background-color: var(--admin-surface-2);
+}
+
+/* ============================================================
+   Compact variant
+   ============================================================ */
+
+.at-table--compact thead th,
+.at-table--compact tbody td,
+.at-table--compact tfoot td {
+  padding: var(--admin-space-2) var(--admin-space-3);
+}
+
+/* ============================================================
+   Drag-and-drop rows (tabledrag)
+   ============================================================ */
+
+.at-table tbody tr.drag {
+  background-color: var(--admin-accent-light);
+}
+
+.at-table tbody tr.drag-previous {
+  background-color: var(--admin-surface-2);
+}
+
+.at-table td.tabledrag-handle {
+  cursor: move;
+  color: var(--admin-text-3);
+  padding-right: 0;
+}
+
+/* ============================================================
+   Table toolbar (bulk actions)
+   ============================================================ */
+
+.at-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--admin-space-4);
+  padding: var(--admin-space-3) var(--admin-space-4);
+  border-bottom: 1px solid var(--admin-border);
+  background-color: var(--admin-surface);
+  flex-wrap: wrap;
+}
+
+.at-table-toolbar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+}
+
+.at-table-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+}
+
+.at-table-toolbar__selected {
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-2);
+}

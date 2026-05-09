@@ -1,0 +1,329 @@
+/**
+ * forms.css — Form fields: inputs, selects, textareas, checkboxes, radios, file upload.
+ * All values via --admin-* tokens only.
+ */
+
+/* ============================================================
+   Form wrapper
+   ============================================================ */
+
+.at-form {
+  width: 100%;
+}
+
+.at-exposed-form {
+  width: 100%;
+  display: flex;
+  gap: var(--admin-space-4);
+}
+
+/* ============================================================
+   Form group / field wrapper
+   ============================================================ */
+
+.at-form-group {
+  margin-bottom: var(--admin-space-5);
+}
+
+.at-form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   Label
+   ============================================================ */
+
+.at-form-label,
+label {
+  display: block;
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: var(--admin-text);
+  margin-bottom: var(--admin-space-2);
+  line-height: 1.4;
+}
+
+.at-form-label .form-required,
+label .form-required {
+  color: var(--admin-danger);
+  margin-left: var(--admin-space-1);
+}
+
+/* ============================================================
+   Text-like inputs
+   ============================================================ */
+
+.at-form-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="time"] {
+  display: block;
+  width: 100%;
+  padding: var(--admin-space-2) var(--admin-space-3);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-base);
+  line-height: 1.5;
+  color: var(--admin-text);
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  transition:
+    border-color var(--admin-transition-fast),
+    box-shadow var(--admin-transition-fast);
+  appearance: none;
+}
+
+.at-form-input::placeholder {
+  color: var(--admin-text-3);
+}
+
+.at-form-input:hover {
+  border-color: var(--admin-text-3);
+}
+
+.at-form-input:focus,
+.at-form-input:focus-visible {
+  outline: none;
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+
+.at-form-input:disabled {
+  background-color: var(--admin-surface-2);
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+}
+
+.at-form-input--error {
+  border-color: var(--admin-danger);
+}
+
+.at-form-input--error:focus {
+  box-shadow: 0 0 0 3px var(--admin-danger-bg);
+}
+
+/* Search variant */
+.at-form-input--search {
+  padding-left: var(--admin-space-8);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239b98b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: var(--admin-space-3) center;
+  background-size: 16px;
+}
+
+/* ============================================================
+   Select
+   ============================================================ */
+
+.at-form-select,
+select {
+  display: block;
+  width: 100%;
+  padding: var(--admin-space-2) var(--admin-space-8) var(--admin-space-2) var(--admin-space-3);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-base);
+  line-height: 1.5;
+  color: var(--admin-text);
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6884' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--admin-space-3) center;
+  background-size: 16px;
+  cursor: pointer;
+  transition:
+    border-color var(--admin-transition-fast),
+    box-shadow var(--admin-transition-fast);
+}
+
+.at-form-select:hover {
+  border-color: var(--admin-text-3);
+}
+
+.at-form-select:focus {
+  outline: none;
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+
+.at-form-select:disabled {
+  background-color: var(--admin-surface-2);
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Textarea
+   ============================================================ */
+
+.at-form-textarea,
+textarea {
+  display: block;
+  width: 100%;
+  padding: var(--admin-space-3);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-base);
+  line-height: 1.6;
+  color: var(--admin-text);
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  resize: vertical;
+  min-height: 100px;
+  transition:
+    border-color var(--admin-transition-fast),
+    box-shadow var(--admin-transition-fast);
+}
+
+.at-form-textarea::placeholder {
+  color: var(--admin-text-3);
+}
+
+.at-form-textarea:hover {
+  border-color: var(--admin-text-3);
+}
+
+.at-form-textarea:focus {
+  outline: none;
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+
+.at-form-textarea:disabled {
+  background-color: var(--admin-surface-2);
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+  resize: none;
+}
+
+/* ============================================================
+   Checkbox & radio
+   ============================================================ */
+
+.at-form-checkbox,
+.at-form-radio {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--admin-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.at-form-check {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  margin-bottom: var(--admin-space-2);
+  cursor: pointer;
+}
+
+.at-form-check label {
+  margin-bottom: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.at-form-check input:disabled + label {
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   File upload
+   ============================================================ */
+
+.at-form-file {
+  display: block;
+  width: 100%;
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-base);
+  color: var(--admin-text);
+  cursor: pointer;
+}
+
+.at-form-file::file-selector-button {
+  padding: var(--admin-space-2) var(--admin-space-4);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-md);
+  font-weight: 500;
+  color: var(--admin-text);
+  background-color: var(--admin-surface-2);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  margin-right: var(--admin-space-3);
+  transition: background-color var(--admin-transition-fast);
+}
+
+.at-form-file::file-selector-button:hover {
+  background-color: var(--admin-border);
+}
+
+/* ============================================================
+   Help / description text
+   ============================================================ */
+
+.at-form-help {
+  margin-top: var(--admin-space-2);
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-2);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   Inline error message
+   ============================================================ */
+
+.at-form-error {
+  margin-top: var(--admin-space-2);
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-danger);
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-1);
+}
+
+/* ============================================================
+   Fieldset / legend
+   ============================================================ */
+
+.at-fieldset,
+fieldset {
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  padding: var(--admin-space-4) var(--admin-space-5);
+  margin-bottom: var(--admin-space-5);
+}
+
+.at-fieldset legend,
+fieldset legend {
+  font-size: var(--admin-font-size-sm);
+  font-weight: 600;
+  color: var(--admin-text);
+  padding: 0 var(--admin-space-2);
+}
+
+/* ============================================================
+   Form actions bar
+   ============================================================ */
+
+.at-form-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  padding: var(--admin-space-4) 0;
+  border-top: 1px solid var(--admin-border);
+  margin-top: var(--admin-space-6);
+  flex-wrap: wrap;
+}

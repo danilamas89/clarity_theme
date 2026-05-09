@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Theme override for local tasks (tabs).
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the list element.
+ * - links: A list of tab links. Each link contains:
+ *   - attributes: HTML attributes for the tab element.
+ *   - link: The tab link.
+ *   - text: The tab label.
+ *   - url: The URL instance.
+ */
+#}
+{% if links %}
+  <nav class="at-tabs" aria-label="{{ 'Tabs'|t }}">
+    {% for key, link in links %}
+      <a class="at-tab{% if link.link['#active'] %} is-active{% endif %}"
+        href="{{ link.url }}"
+        {% if link.link['#active'] %}aria-current="page"{% endif %}>
+        {{- link.text -}}
+      </a>
+    {% endfor %}
+  </nav>
+{% endif %}

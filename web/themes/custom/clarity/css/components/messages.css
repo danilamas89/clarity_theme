@@ -1,0 +1,126 @@
+/**
+ * messages.css — System messages: status, warning, error, info.
+ * Dismissible via Alpine.js. All values via --admin-* tokens only.
+ */
+
+/* ============================================================
+   Base message
+   ============================================================ */
+
+.at-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--admin-space-3);
+  padding: var(--admin-space-4) var(--admin-space-5);
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid transparent;
+  font-size: var(--admin-font-size-base);
+  line-height: 1.5;
+  margin-bottom: var(--admin-space-4);
+}
+
+.at-message:last-child {
+  margin-bottom: 0;
+}
+
+.at-message__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.at-message__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.at-message__title {
+  font-weight: 600;
+  margin-bottom: var(--admin-space-1);
+}
+
+.at-message__content {
+  color: inherit;
+}
+
+.at-message__content ul {
+  margin: var(--admin-space-2) 0 0;
+  padding-left: var(--admin-space-4);
+}
+
+.at-message__close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  color: currentColor;
+  opacity: 0.6;
+  transition: opacity var(--admin-transition-fast), background-color var(--admin-transition-fast);
+  margin: -4px -4px -4px auto;
+}
+
+.at-message__close:hover {
+  opacity: 1;
+  background-color: rgb(0 0 0 / 0.06);
+}
+
+.at-message__close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Variants
+   ============================================================ */
+
+.at-message--success {
+  background-color: var(--admin-success-bg);
+  border-color: var(--admin-success);
+  color: var(--admin-success);
+}
+
+.at-message--warning {
+  background-color: var(--admin-warning-bg);
+  border-color: var(--admin-warning);
+  color: var(--admin-warning);
+}
+
+.at-message--danger {
+  background-color: var(--admin-danger-bg);
+  border-color: var(--admin-danger);
+  color: var(--admin-danger);
+}
+
+.at-message--info {
+  background-color: var(--admin-info-bg);
+  border-color: var(--admin-info);
+  color: var(--admin-info);
+}
+
+/* Message body text inherits a readable color */
+.at-message--success .at-message__body,
+.at-message--success .at-message__content { color: #065f46; }
+
+.at-message--warning .at-message__body,
+.at-message--warning .at-message__content { color: #92400e; }
+
+.at-message--danger .at-message__body,
+.at-message--danger .at-message__content { color: #991b1b; }
+
+.at-message--info .at-message__body,
+.at-message--info .at-message__content { color: #1e40af; }
+
+/* ============================================================
+   Messages container
+   ============================================================ */
+
+.at-messages {
+  margin-bottom: var(--admin-space-6);
+}

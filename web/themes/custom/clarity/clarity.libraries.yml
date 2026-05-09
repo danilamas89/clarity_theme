@@ -1,0 +1,35 @@
+global:
+  version: VERSION
+  css:
+    base:
+      css/tokens.css: {}
+      css/base.css: {}
+    layout:
+      css/layout.css: {}
+    component:
+      css/components/navigation.css: {}
+      css/components/toolbar.css: {}
+      css/components/buttons.css: {}
+      css/components/forms.css: {}
+      css/components/tables.css: {}
+      css/components/messages.css: {}
+      css/components/badges.css: {}
+      css/components/cards.css: {}
+      css/components/modals.css: {}
+  js:
+    vendor/alpinejs/dist/cdn.min.js:
+      scope: footer
+      weight: -1
+      attributes:
+        defer: true
+    js/theme.js:
+      scope: footer
+      weight: 0
+  dependencies:
+    - core/drupalSettings
+
+fonts:
+  version: VERSION
+  css:
+    base:
+      fonts/inter/inter.css: {}

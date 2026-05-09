@@ -1,0 +1,46 @@
+/**
+ * inter.css — Local Inter font-face declarations.
+ *
+ * Download Inter from https://rsms.me/inter/ and place the .woff2 files
+ * in this directory, then uncomment the @font-face rules below.
+ *
+ * Recommended subsets: Latin (covers most Western languages).
+ * Recommended weights: 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold).
+ *
+ * When the font files are not present, the design system falls back to
+ * system-ui (defined in --admin-font in tokens.css).
+ */
+
+/*
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('Inter-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('Inter-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('Inter-SemiBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('Inter-Bold.woff2') format('woff2');
+}
+*/

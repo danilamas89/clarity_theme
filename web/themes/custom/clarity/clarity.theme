@@ -1,0 +1,140 @@
+<?php
+
+/**
+ * @file
+ * Clarity — theme functions and preprocess hooks.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_preprocess_HOOK() for html.html.twig.
+ */
+function clarity_preprocess_html(array &$variables): void {
+  // Expose the current path as a body attribute for targeted CSS.
+  $current_path = \Drupal::service('path.current')->getPath();
+  $variables['attributes']['data-path'] = $current_path;
+
+  // Add the theme version to JS settings.
+  $variables['#attached']['drupalSettings']['clarity']['version'] = '1.0.0-dev';
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page.html.twig.
+ */
+function clarity_preprocess_page(array &$variables): void {
+  // Make the sidebar collapsed state available to templates.
+  $variables['sidebar_collapsed'] = FALSE;
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for block.html.twig.
+ */
+function clarity_preprocess_block(array &$variables): void {
+  // Add plugin id as a template variable for targeted styling.
+  $variables['plugin_id'] = $variables['elements']['#plugin_id'] ?? '';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for menu.html.twig.
+ */
+function clarity_preprocess_menu(array &$variables): void {
+  // Flag the current item in each menu tree item.
+  $current_path = \Drupal::service('path.current')->getPath();
+  $variables['current_path'] = $current_path;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Adds admin theme classes to all forms.
+ */
+function clarity_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form['#attributes']['class'][] = 'at-form';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for input.html.twig.
+ */
+function clarity_preprocess_input(array &$variables): void {
+  $type = $variables['element']['#type'] ?? '';
+
+  $type_class_map = [
+    'submit'   => 'at-btn at-btn-primary',
+    'button'   => 'at-btn at-btn-secondary',
+    'reset'    => 'at-btn at-btn-ghost',
+    'text'     => 'at-form-input',
+    'email'    => 'at-form-input',
+    'password' => 'at-form-input',
+    'number'   => 'at-form-input',
+    'url'      => 'at-form-input',
+    'search'   => 'at-form-input at-form-input--search',
+    'tel'      => 'at-form-input',
+    'date'     => 'at-form-input',
+    'checkbox' => 'at-form-checkbox',
+    'radio'    => 'at-form-radio',
+    'file'     => 'at-form-file',
+  ];
+
+  if (isset($type_class_map[$type])) {
+    foreach (explode(' ', $type_class_map[$type]) as $class) {
+      $variables['attributes']['class'][] = $class;
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for select.html.twig.
+ */
+function clarity_preprocess_select(array &$variables): void {
+  $variables['attributes']['class'][] = 'at-form-select';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for textarea.html.twig.
+ */
+function clarity_preprocess_textarea(array &$variables): void {
+  $variables['attributes']['class'][] = 'at-form-textarea';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for table.html.twig.
+ */
+function clarity_preprocess_table(array &$variables): void {
+  $variables['attributes']['class'][] = 'at-table';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for status_messages.html.twig.
+ */
+function clarity_preprocess_status_messages(array &$variables): void {
+  // Map Drupal message types to theme classes.
+  $variables['message_type_classes'] = [
+    'status'  => 'at-message at-message--success',
+    'warning' => 'at-message at-message--warning',
+    'error'   => 'at-message at-message--danger',
+    'info'    => 'at-message at-message--info',
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for breadcrumb.html.twig.
+ */
+function clarity_preprocess_breadcrumb(array &$variables): void {
+  $variables['attributes']['class'][] = 'at-breadcrumb';
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for block templates.
+ */
+function clarity_theme_suggestions_block_alter(array &$suggestions, array $variables): void {
+  // Add suggestion by block plugin id for precise overrides.
+  $plugin_id = $variables['elements']['#plugin_id'] ?? '';
+  if ($plugin_id) {
+    $safe_id = str_replace(':', '__', $plugin_id);
+    $suggestions[] = 'block__' . $safe_id;
+  }
+}

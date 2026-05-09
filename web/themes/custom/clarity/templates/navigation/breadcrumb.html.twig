@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme override for a breadcrumb trail.
+ *
+ * Available variables:
+ * - breadcrumb: An array of breadcrumb items.
+ *   Each crumb contains:
+ *   - text: The link text.
+ *   - url: The URL of the link (optional).
+ */
+#}
+{% if breadcrumb %}
+  <nav class="at-breadcrumb" aria-label="{{ 'Breadcrumb'|t }}">
+    <ol class="at-breadcrumb">
+      {% for crumb in breadcrumb %}
+        <li class="at-breadcrumb__item">
+          {% if crumb.url %}
+            <a class="at-breadcrumb__link" href="{{ crumb.url }}">{{ crumb.text }}</a>
+          {% else %}
+            <span class="at-breadcrumb__current" aria-current="page">{{ crumb.text }}</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+{% endif %}

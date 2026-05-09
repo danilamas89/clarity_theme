@@ -1,0 +1,60 @@
+{#
+/**
+ * @file
+ * Theme override for the admin sidebar navigation.
+ *
+ * The Administration menu has a single root item ("Administration") whose
+ * children are the real top-level items (Content, Structure, etc.).
+ * We skip that root wrapper and render its children directly.
+ *
+ * Desktop: hovering a parent item reveals a flyout submenu to the right.
+ * Mobile: submenus are hidden — parent items navigate directly.
+ */
+#}
+{% import _self as menus %}
+
+{#
+  If the menu has exactly one root item and it has children (i.e. the
+  "Administration" wrapper), skip it and render its children as level 0.
+  This keeps the menu stable regardless of active trail.
+#}
+{% if items|length == 1 and items|first.below %}
+  {{ menus.menu_links(items|first.below, 0) }}
+{% else %}
+  {{ menus.menu_links(items, 0) }}
+{% endif %}
+
+{% macro menu_links(items, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    <ul class="{{ menu_level == 0 ? 'at-nav' : 'at-nav-sub' }}">
+      {% for item in items %}
+        <li class="at-nav-item">
+
+          <a class="at-nav-link{% if item.in_active_trail %} is-active{% endif %}{% if item.below %} at-nav-link--has-children{% endif %}"
+            href="{{ item.url }}"
+            {% if item.in_active_trail %}aria-current="page"{% endif %}>
+            <span class="at-nav-link__text">{{ item.title }}</span>
+            {% if item.below %}
+              <svg class="at-nav-link__chevron"
+                width="12" height="12" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            {% endif %}
+          </a>
+
+          {% if item.below %}
+            <div class="at-nav-flyout">
+              <div class="at-nav-flyout__label">{{ item.title }}</div>
+              {{ menus.menu_links(item.below, menu_level + 1) }}
+            </div>
+          {% endif %}
+
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}

@@ -1,0 +1,93 @@
+/**
+ * tokens.css — Design system CSS custom properties.
+ * This file contains variables ONLY. No styles, no selectors beyond :root.
+ */
+
+:root {
+  /* Colors — surfaces */
+  --admin-bg:            #f8f8fb;
+  --admin-surface:       #ffffff;
+  --admin-surface-2:     #f1f0f7;
+
+  /* Colors — borders */
+  --admin-border:        #e4e2f0;
+  --admin-border-focus:  #6d52e8;
+
+  /* Colors — sidebar */
+  --admin-sidebar-bg:          #1e1b2e;
+  --admin-sidebar-text:        #a09bbf;
+  --admin-sidebar-active-bg:   #312d4b;
+  --admin-sidebar-active:      #ffffff;
+  --admin-sidebar-hover:       #2a2740;
+
+  /* Colors — accent (indigo/violet) */
+  --admin-accent:        #6d52e8;
+  --admin-accent-light:  #ede9fd;
+  --admin-accent-text:   #4c35c4;
+
+  /* Colors — text */
+  --admin-text:          #1a1825;
+  --admin-text-2:        #6b6884;
+  --admin-text-3:        #9b98b0;
+
+  /* Colors — semantic */
+  --admin-success-bg:    #ecfdf5;
+  --admin-success:       #059669;
+  --admin-warning-bg:    #fffbeb;
+  --admin-warning:       #d97706;
+  --admin-danger-bg:     #fef2f2;
+  --admin-danger:        #dc2626;
+  --admin-info-bg:       #eff6ff;
+  --admin-info:          #2563eb;
+
+  /* Typography */
+  --admin-font:          'Inter', system-ui, -apple-system, sans-serif;
+  --admin-font-mono:     'JetBrains Mono', 'Fira Code', monospace;
+  --admin-font-size-2xs: 10px;
+  --admin-font-size-xs:  11px;
+  --admin-font-size-sm:  12px;
+  --admin-font-size-md:  13px;
+  --admin-font-size-base: 14px;
+  --admin-font-size-lg:  16px;
+  --admin-font-size-xl:  18px;
+
+  /* Spacing */
+  --admin-space-1:    4px;
+  --admin-space-2:    8px;
+  --admin-space-2-5:  10px;
+  --admin-space-3:    12px;
+  --admin-space-3-5:  14px;
+  --admin-space-4:    16px;
+  --admin-space-5:    20px;
+  --admin-space-6:    24px;
+  --admin-space-8:    32px;
+
+  /* Border radius */
+  --admin-radius-sm:   5px;
+  --admin-radius-md:   8px;
+  --admin-radius-lg:   12px;
+  --admin-radius-full: 9999px;
+
+  /* Layout */
+  --admin-sidebar-width:            220px;
+  --admin-sidebar-width-collapsed:  56px;
+  --admin-topbar-height:            56px;
+  --admin-content-max-width:        1200px;
+
+  /* Shadows */
+  --admin-shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --admin-shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+  --admin-shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+
+  /* Transitions */
+  --admin-transition-fast:   150ms ease;
+  --admin-transition-base:   200ms ease;
+  --admin-transition-slow:   300ms ease;
+
+  /* Z-index scale */
+  --admin-z-sidebar:  100;
+  --admin-z-topbar:   200;
+  --admin-z-dropdown: 300;
+  --admin-z-modal:    400;
+  --admin-z-toast:    500;
+}

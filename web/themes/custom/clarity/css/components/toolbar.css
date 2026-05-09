@@ -1,0 +1,84 @@
+/**
+ * toolbar.css — Drupal admin toolbar (the top black bar added by the toolbar module).
+ * We hide the core toolbar entirely since our theme provides its own sidebar navigation.
+ * The toolbar module stays enabled so contrib modules that depend on its hooks still work.
+ */
+
+/* ============================================================
+   Hide the Drupal toolbar — our sidebar replaces it
+   ============================================================ */
+
+#toolbar-bar,
+.toolbar-oriented .toolbar-bar,
+.toolbar-tray {
+  display: none !important;
+}
+
+/* Remove the body padding Drupal's toolbar JS adds */
+body.toolbar-fixed,
+body.toolbar-tray-open,
+body.toolbar-horizontal {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* ============================================================
+   Toolbar bar — restyle the top black bar
+   ============================================================ */
+
+#toolbar-bar {
+  background-color: var(--admin-sidebar-bg);
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  font-family: var(--admin-font);
+}
+
+#toolbar-bar .toolbar-tab > a,
+#toolbar-bar .toolbar-tab > button {
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: var(--admin-sidebar-text);
+  transition: background-color var(--admin-transition-fast), color var(--admin-transition-fast);
+}
+
+#toolbar-bar .toolbar-tab > a:hover,
+#toolbar-bar .toolbar-tab > button:hover,
+#toolbar-bar .toolbar-tab > a:focus,
+#toolbar-bar .toolbar-tab > button:focus {
+  background-color: var(--admin-sidebar-hover);
+  color: var(--admin-sidebar-active);
+}
+
+#toolbar-bar .toolbar-tab.is-active > a,
+#toolbar-bar .toolbar-tab.is-active > button {
+  background-color: var(--admin-sidebar-active-bg);
+  color: var(--admin-sidebar-active);
+}
+
+/* ============================================================
+   Toolbar tray
+   ============================================================ */
+
+.toolbar-tray {
+  background-color: var(--admin-sidebar-bg);
+  border-color: rgb(255 255 255 / 0.08);
+  font-family: var(--admin-font);
+}
+
+.toolbar-tray a {
+  color: var(--admin-sidebar-text);
+  font-size: var(--admin-font-size-md);
+  transition: background-color var(--admin-transition-fast), color var(--admin-transition-fast);
+}
+
+.toolbar-tray a:hover {
+  background-color: var(--admin-sidebar-hover);
+  color: var(--admin-sidebar-active);
+  text-decoration: none;
+}
+
+.toolbar-tray .toolbar-menu-administration > .menu-item--active-trail > a,
+.toolbar-tray a.is-active {
+  background-color: var(--admin-sidebar-active-bg);
+  color: var(--admin-sidebar-active);
+}

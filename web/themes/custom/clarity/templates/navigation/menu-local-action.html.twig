@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Theme override for a single local action link.
+ *
+ * Renders the action link (e.g. "Add content") as a primary button.
+ *
+ * Available variables:
+ * - attributes: HTML attributes for the <li> element.
+ * - link: The action link render element.
+ */
+#}
+<li{{ attributes.addClass('at-local-action') }}>
+  {{ link }}
+</li>
