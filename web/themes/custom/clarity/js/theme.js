@@ -216,6 +216,34 @@
   };
 
   /**
+   * Node add list — make the <dd> description area clickable by delegating
+   * to the adjacent <dt> link. Only runs on /node/add.
+   */
+  Drupal.behaviors.clarityNodeAddList = {
+    attach(context) {
+      if (document.body.dataset.path !== '/node/add') return;
+
+      const dds = context.querySelectorAll
+        ? context.querySelectorAll('#block-clarity-content dd')
+        : [];
+
+      dds.forEach((dd) => {
+        if (dd.dataset.atClickable) return;
+        dd.dataset.atClickable = '1';
+
+        const dt = dd.previousElementSibling;
+        if (!dt) return;
+        const link = dt.querySelector('a');
+        if (!link) return;
+
+        dd.addEventListener('click', () => {
+          window.location.href = link.href;
+        });
+      });
+    },
+  };
+
+  /**
    * Focus trap for modals.
    * Works with the .at-modal element; call openModal / closeModal utilities.
    */
