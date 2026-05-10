@@ -26,11 +26,17 @@
     Alpine.store('sidebar', {
       collapsed: localStorage.getItem('at-sidebar-collapsed') === 'true',
 
+      // Sidebar collapse only makes sense when nav items have icons.
+      // Without icons, collapsed state renders nav as invisible.
+      get hasIcons() {
+        return !!document.querySelector('.at-nav-link__icon');
+      },
+
       toggle() {
+        // Prevent collapsing if nav items have no icons (would appear empty).
+        if (!this.collapsed && !this.hasIcons) return;
         this.collapsed = !this.collapsed;
         localStorage.setItem('at-sidebar-collapsed', this.collapsed);
-        document.documentElement.dataset.sidebarCollapsed = this.collapsed;
-        // Update the page shell attribute for CSS targeting.
         const page = document.querySelector('.at-page');
         if (page) {
           page.dataset.sidebarCollapsed = this.collapsed;
@@ -38,10 +44,14 @@
       },
 
       init() {
-        // Apply persisted state on page load.
+        // If persisted as collapsed but nav has no icons, reset to expanded.
+        if (this.collapsed && !this.hasIcons) {
+          this.collapsed = false;
+          localStorage.removeItem('at-sidebar-collapsed');
+        }
         const page = document.querySelector('.at-page');
-        if (page && this.collapsed) {
-          page.dataset.sidebarCollapsed = 'true';
+        if (page) {
+          page.dataset.sidebarCollapsed = this.collapsed;
         }
       },
     });

@@ -13,6 +13,88 @@
   margin: 0;
 }
 
+/* Design-system nav groups */
+.at-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.at-nav-group__label {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--admin-text-3);
+  font-size: var(--admin-font-size-xs);
+  font-weight: 600;
+  padding: var(--admin-space-3) var(--admin-space-3) var(--admin-space-2);
+}
+
+/* Design-system nav item (anchor pattern) */
+.at-nav-item__icon {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+}
+
+.at-nav-item__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.at-nav-item__badge {
+  flex: 0 0 auto;
+  min-width: 22px;
+  padding: 1px 7px;
+  border-radius: var(--admin-radius-full);
+  background: var(--admin-accent);
+  color: #fff;
+  font-size: var(--admin-font-size-xs);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Sidebar brand area */
+.at-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  padding: var(--admin-space-4);
+  height: 64px;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.at-sidebar__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.at-sidebar__brand-text strong {
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--admin-font-size-base);
+}
+
+.at-sidebar__brand-text span {
+  color: var(--admin-sidebar-text);
+  font-size: var(--admin-font-size-sm);
+}
+
+/* Collapsed: hide group labels, item labels/badges, brand text */
+.at-page[data-sidebar-collapsed="true"] .at-nav-group__label,
+.at-page[data-sidebar-collapsed="true"] .at-nav-item__label,
+.at-page[data-sidebar-collapsed="true"] .at-nav-item__badge,
+.at-page[data-sidebar-collapsed="true"] .at-sidebar__brand-text {
+  display: none;
+}
+
 .at-nav-section {
   margin-bottom: var(--admin-space-4);
 }
@@ -215,6 +297,17 @@
 .at-page[data-sidebar-collapsed="true"] .at-nav-link {
   justify-content: center;
   padding: var(--admin-space-3) var(--admin-space-3);
+}
+
+/* Fallback: when collapsed and no icon exists, show a dot so items are visible */
+.at-page[data-sidebar-collapsed="true"] .at-nav-link:not(:has(.at-nav-link__icon))::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--admin-radius-full);
+  background: currentColor;
+  opacity: 0.6;
 }
 
 /* ============================================================

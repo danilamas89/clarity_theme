@@ -1,0 +1,25 @@
+uuid: f03ad553-ad94-4ebd-8c38-85958cc4a912
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.admin
+  module:
+    - system
+  theme:
+    - clarity
+id: clarity_administration
+theme: clarity
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'system_menu_block:admin'
+settings:
+  id: 'system_menu_block:admin'
+  label: Administration
+  label_display: visible
+  provider: system
+  level: 1
+  depth: null
+  expand_all_items: true
+visibility: {  }

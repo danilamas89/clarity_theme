@@ -306,3 +306,26 @@ blockquote {
   display: table;
   clear: both;
 }
+
+/* ============================================================
+   Design-system layout utilities
+   ============================================================ */
+
+.at-stack  { display: flex; flex-direction: column; gap: var(--admin-space-4); }
+.at-row    { display: flex; align-items: center; gap: var(--admin-space-3); flex-wrap: wrap; }
+
+.at-divider {
+  height: 1px;
+  background: var(--admin-border);
+  border: 0;
+  margin: 0;
+}
+
+.at-spec-label {
+  font-family: var(--admin-font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--admin-text-3);
+  font-weight: 500;
+}
