@@ -63,17 +63,17 @@ function clarity_preprocess_input(array &$variables): void {
   $type = $variables['element']['#type'] ?? '';
 
   $type_class_map = [
-    'submit'   => 'at-btn at-btn-primary',
-    'button'   => 'at-btn at-btn-secondary',
-    'reset'    => 'at-btn at-btn-ghost',
-    'text'     => 'at-form-input',
-    'email'    => 'at-form-input',
-    'password' => 'at-form-input',
-    'number'   => 'at-form-input',
-    'url'      => 'at-form-input',
-    'search'   => 'at-form-input at-form-input--search',
-    'tel'      => 'at-form-input',
-    'date'     => 'at-form-input',
+    'submit'   => 'at-btn at-btn--primary',
+    'button'   => 'at-btn at-btn--secondary',
+    'reset'    => 'at-btn at-btn--ghost',
+    'text'     => 'at-input',
+    'email'    => 'at-input',
+    'password' => 'at-input',
+    'number'   => 'at-input',
+    'url'      => 'at-input',
+    'search'   => 'at-input at-form-input--search',
+    'tel'      => 'at-input',
+    'date'     => 'at-input',
     'checkbox' => 'at-form-checkbox',
     'radio'    => 'at-form-radio',
     'file'     => 'at-form-file',
@@ -90,14 +90,14 @@ function clarity_preprocess_input(array &$variables): void {
  * Implements hook_preprocess_HOOK() for select.html.twig.
  */
 function clarity_preprocess_select(array &$variables): void {
-  $variables['attributes']['class'][] = 'at-form-select';
+  $variables['attributes']['class'][] = 'at-select';
 }
 
 /**
  * Implements hook_preprocess_HOOK() for textarea.html.twig.
  */
 function clarity_preprocess_textarea(array &$variables): void {
-  $variables['attributes']['class'][] = 'at-form-textarea';
+  $variables['attributes']['class'][] = 'at-textarea';
 }
 
 /**

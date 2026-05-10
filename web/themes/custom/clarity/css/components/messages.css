@@ -24,10 +24,10 @@
 }
 
 .at-message__icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   margin-top: 1px;
+  display: grid;
+  place-items: center;
 }
 
 .at-message__body {
@@ -40,6 +40,7 @@
   margin-bottom: var(--admin-space-1);
 }
 
+.at-message__text,
 .at-message__content {
   color: inherit;
 }
@@ -82,39 +83,38 @@
 
 .at-message--success {
   background-color: var(--admin-success-bg);
-  border-color: var(--admin-success);
-  color: var(--admin-success);
+  border-color: #b8eed5;
 }
+.at-message--success .at-message__icon { color: var(--admin-success); }
+.at-message--success .at-message__title { color: var(--admin-text); }
+.at-message--success .at-message__text,
+.at-message--success .at-message__content { color: #065f46; }
 
 .at-message--warning {
   background-color: var(--admin-warning-bg);
-  border-color: var(--admin-warning);
-  color: var(--admin-warning);
+  border-color: #f5e1a8;
 }
+.at-message--warning .at-message__icon { color: var(--admin-warning); }
+.at-message--warning .at-message__title { color: var(--admin-text); }
+.at-message--warning .at-message__text,
+.at-message--warning .at-message__content { color: #92400e; }
 
 .at-message--danger {
   background-color: var(--admin-danger-bg);
-  border-color: var(--admin-danger);
-  color: var(--admin-danger);
+  border-color: #f5c5c5;
 }
+.at-message--danger .at-message__icon { color: var(--admin-danger); }
+.at-message--danger .at-message__title { color: var(--admin-text); }
+.at-message--danger .at-message__text,
+.at-message--danger .at-message__content { color: #991b1b; }
 
 .at-message--info {
   background-color: var(--admin-info-bg);
-  border-color: var(--admin-info);
-  color: var(--admin-info);
+  border-color: #c3dafe;
 }
-
-/* Message body text inherits a readable color */
-.at-message--success .at-message__body,
-.at-message--success .at-message__content { color: #065f46; }
-
-.at-message--warning .at-message__body,
-.at-message--warning .at-message__content { color: #92400e; }
-
-.at-message--danger .at-message__body,
-.at-message--danger .at-message__content { color: #991b1b; }
-
-.at-message--info .at-message__body,
+.at-message--info .at-message__icon { color: var(--admin-info); }
+.at-message--info .at-message__title { color: var(--admin-text); }
+.at-message--info .at-message__text,
 .at-message--info .at-message__content { color: #1e40af; }
 
 /* ============================================================

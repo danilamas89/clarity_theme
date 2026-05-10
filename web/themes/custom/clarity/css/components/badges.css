@@ -1,6 +1,9 @@
 /**
  * badges.css — Status pills, labels, counters.
  * All values via --admin-* tokens only.
+ *
+ * Convention: dot indicator is ON by default. Use --no-dot to suppress it.
+ * Variants use BEM modifiers (--success, --warning, etc.).
  */
 
 /* ============================================================
@@ -10,76 +13,109 @@
 .at-badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--admin-space-1);
-  padding: 2px var(--admin-space-2);
-  font-size: var(--admin-font-size-xs);
-  font-weight: 600;
-  line-height: 1.4;
+  gap: 6px;
+  padding: 2px 10px;
+  height: 22px;
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  line-height: 1;
   border-radius: var(--admin-radius-full);
   white-space: nowrap;
-  border: 1px solid transparent;
-}
-
-/* ============================================================
-   Variants
-   ============================================================ */
-
-.at-badge-success {
-  background-color: var(--admin-success-bg);
-  color: var(--admin-success);
-  border-color: var(--admin-success);
-}
-
-.at-badge-warning {
-  background-color: var(--admin-warning-bg);
-  color: var(--admin-warning);
-  border-color: var(--admin-warning);
-}
-
-.at-badge-danger {
-  background-color: var(--admin-danger-bg);
-  color: var(--admin-danger);
-  border-color: var(--admin-danger);
-}
-
-.at-badge-info {
-  background-color: var(--admin-info-bg);
-  color: var(--admin-info);
-  border-color: var(--admin-info);
-}
-
-.at-badge-accent {
-  background-color: var(--admin-accent-light);
-  color: var(--admin-accent-text);
-  border-color: var(--admin-accent);
-}
-
-.at-badge-neutral {
-  background-color: var(--admin-surface-2);
+  background: var(--admin-surface-2);
   color: var(--admin-text-2);
-  border-color: var(--admin-border);
 }
 
-/* ============================================================
-   Dot indicator
-   ============================================================ */
-
+/* Dot indicator — on by default */
 .at-badge::before {
-  content: none;
-}
-
-.at-badge--dot::before {
-  content: '';
-  display: inline-block;
+  content: "";
   width: 6px;
   height: 6px;
-  border-radius: var(--admin-radius-full);
-  background-color: currentColor;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
   flex-shrink: 0;
 }
 
+.at-badge--no-dot::before {
+  display: none;
+}
+
 /* ============================================================
-   Counter badge (numeric)
+   Semantic variants (BEM -- modifiers)
+   ============================================================ */
+
+.at-badge--success {
+  background: var(--admin-success-bg);
+  color: var(--admin-success);
+}
+
+.at-badge--warning {
+  background: var(--admin-warning-bg);
+  color: var(--admin-warning);
+}
+
+.at-badge--danger {
+  background: var(--admin-danger-bg);
+  color: var(--admin-danger);
+}
+
+.at-badge--info {
+  background: var(--admin-info-bg);
+  color: var(--admin-info);
+}
+
+/* ============================================================
+   Accent variants
+   ============================================================ */
+
+.at-badge--accent {
+  background: var(--admin-accent-light);
+  color: var(--admin-accent-text);
+}
+
+.at-badge--solid-accent {
+  background: var(--admin-accent);
+  color: #fff;
+}
+
+.at-badge--solid-accent::before {
+  background: #fff;
+  opacity: 0.9;
+}
+
+/* ============================================================
+   Count / numeric badge
+   ============================================================ */
+
+.at-badge--count {
+  padding: 0 8px;
+  height: 20px;
+  font-size: var(--admin-font-size-xs);
+}
+
+/* ============================================================
+   Legacy — single-dash variants kept for backward compat
+   ============================================================ */
+
+.at-badge-success { background: var(--admin-success-bg); color: var(--admin-success); }
+.at-badge-warning { background: var(--admin-warning-bg); color: var(--admin-warning); }
+.at-badge-danger  { background: var(--admin-danger-bg);  color: var(--admin-danger); }
+.at-badge-info    { background: var(--admin-info-bg);    color: var(--admin-info); }
+.at-badge-accent  { background: var(--admin-accent-light); color: var(--admin-accent-text); }
+.at-badge-neutral { background: var(--admin-surface-2);  color: var(--admin-text-2); }
+
+/* Suppress dot for legacy variants */
+.at-badge-success::before,
+.at-badge-warning::before,
+.at-badge-danger::before,
+.at-badge-info::before,
+.at-badge-accent::before,
+.at-badge-neutral::before {
+  display: none;
+}
+
+/* ============================================================
+   Counter badge (standalone numeric pill)
    ============================================================ */
 
 .at-counter {
@@ -102,23 +138,16 @@
 }
 
 /* ============================================================
-   Drupal content moderation states (common mapping)
+   Drupal content moderation state aliases
    ============================================================ */
 
-.at-badge--published {
-  background-color: var(--admin-success-bg);
-  color: var(--admin-success);
-  border-color: var(--admin-success);
-}
+.at-badge--published { background: var(--admin-success-bg); color: var(--admin-success); }
+.at-badge--draft     { background: var(--admin-warning-bg); color: var(--admin-warning); }
+.at-badge--archived  { background: var(--admin-surface-2);  color: var(--admin-text-3); }
 
-.at-badge--draft {
-  background-color: var(--admin-warning-bg);
-  color: var(--admin-warning);
-  border-color: var(--admin-warning);
-}
-
-.at-badge--archived {
-  background-color: var(--admin-surface-2);
-  color: var(--admin-text-3);
-  border-color: var(--admin-border);
+/* Suppress dot for moderation aliases */
+.at-badge--published::before,
+.at-badge--draft::before,
+.at-badge--archived::before {
+  display: none;
 }

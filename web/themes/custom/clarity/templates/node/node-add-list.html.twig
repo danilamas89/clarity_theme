@@ -3,18 +3,25 @@
  * @file
  * Theme override for the list of available content types on /node/add.
  *
- * Renders content types as tabs instead of a plain list.
- *
  * Available variables:
  * - content: List of content type items. Each item contains:
- *   - add_link: Rendered link to add a node of this type.
- *   - description: Content type description.
+ *   - type: The NodeType config entity.
+ *   - description: Content type description render array.
  */
 #}
 {% if content %}
-  <nav class="at-tabs at-node-add-tabs" aria-label="{{ 'Content types'|t }}">
+  <div class="at-content-type-list">
     {% for item in content %}
-      {{ item.add_link }}
+      <div class="at-content-type-card">
+        <div class="at-content-type-card__title">
+          <a href="{{ path('node.add', {'node_type': item.type.id}) }}">{{ item.type.label }}</a>
+        </div>
+        {% if item.description %}
+          <p class="at-content-type-card__description">{{ item.description }}</p>
+        {% endif %}
+      </div>
     {% endfor %}
-  </nav>
+  </div>
+{% else %}
+  <p>{{ 'No content types are available.'|t }}</p>
 {% endif %}
