@@ -480,47 +480,6 @@
 }
 
 /* ============================================================
-   Content type list — /node/add
-   ============================================================ */
-
-.at-content-type-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--admin-space-4);
-}
-
-.at-content-type-card {
-  background: var(--admin-surface);
-  border: 1px solid var(--admin-border);
-  border-radius: var(--admin-radius-lg);
-  padding: var(--admin-space-5);
-  transition: border-color var(--admin-transition-fast), box-shadow var(--admin-transition-fast);
-}
-
-.at-content-type-card:hover {
-  border-color: var(--admin-accent);
-  box-shadow: var(--admin-shadow-md);
-}
-
-.at-content-type-card__title a {
-  font-size: var(--admin-font-size-base);
-  font-weight: 600;
-  color: var(--admin-accent);
-  text-decoration: none;
-}
-
-.at-content-type-card__title a:hover {
-  text-decoration: underline;
-}
-
-.at-content-type-card__description {
-  margin-top: var(--admin-space-2);
-  font-size: var(--admin-font-size-sm);
-  color: var(--admin-text-2);
-  margin-bottom: 0;
-}
-
-/* ============================================================
    Content area
    ============================================================ */
 
