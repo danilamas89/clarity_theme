@@ -327,3 +327,385 @@ fieldset legend {
   margin-top: var(--admin-space-6);
   flex-wrap: wrap;
 }
+
+/* ============================================================
+   Field — flex column wrapper (design system pattern)
+   ============================================================ */
+
+.at-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.at-field__label {
+  font-size: var(--admin-font-size-md);
+  font-weight: 500;
+  color: var(--admin-text);
+}
+
+.at-field__label .req {
+  color: var(--admin-danger);
+  margin-left: 2px;
+}
+
+.at-field__hint {
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-text-2);
+}
+
+.at-field__error {
+  font-size: var(--admin-font-size-sm);
+  color: var(--admin-danger);
+}
+
+/* ============================================================
+   Short-name aliases: .at-input, .at-select, .at-textarea
+   ============================================================ */
+
+.at-input {
+  display: block;
+  width: 100%;
+  height: 38px;
+  padding: 0 var(--admin-space-3);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-base);
+  color: var(--admin-text);
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  transition: border-color .12s, box-shadow .12s;
+  appearance: none;
+}
+
+.at-input::placeholder { color: var(--admin-text-3); }
+.at-input:hover:not(:focus):not(:disabled) { border-color: #d6d3e6; }
+.at-input:focus {
+  outline: none;
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+.at-input:disabled {
+  background: var(--admin-surface-2);
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+}
+.at-input.is-invalid { border-color: var(--admin-danger); }
+.at-input.is-invalid:focus { box-shadow: 0 0 0 3px var(--admin-danger-bg); }
+
+.at-select {
+  display: block;
+  width: 100%;
+  height: 38px;
+  padding: 0 32px 0 var(--admin-space-3);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-base);
+  color: var(--admin-text);
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M3 4.5l3 3 3-3' stroke='%236b6884' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+  transition: border-color .12s, box-shadow .12s;
+}
+.at-select:hover:not(:focus):not(:disabled) { border-color: #d6d3e6; }
+.at-select:focus {
+  outline: none;
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+.at-select:disabled {
+  background-color: var(--admin-surface-2);
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+}
+.at-select.is-invalid { border-color: var(--admin-danger); }
+.at-select.is-invalid:focus { box-shadow: 0 0 0 3px var(--admin-danger-bg); }
+
+.at-textarea {
+  display: block;
+  width: 100%;
+  padding: var(--admin-space-3);
+  height: auto;
+  min-height: 96px;
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-base);
+  line-height: 1.5;
+  color: var(--admin-text);
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  resize: vertical;
+  transition: border-color .12s, box-shadow .12s;
+}
+.at-textarea::placeholder { color: var(--admin-text-3); }
+.at-textarea:hover:not(:focus):not(:disabled) { border-color: #d6d3e6; }
+.at-textarea:focus {
+  outline: none;
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+.at-textarea:disabled {
+  background: var(--admin-surface-2);
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+  resize: none;
+}
+.at-textarea.is-invalid { border-color: var(--admin-danger); }
+.at-textarea.is-invalid:focus { box-shadow: 0 0 0 3px var(--admin-danger-bg); }
+
+/* ============================================================
+   Input group — icon prefix
+   ============================================================ */
+
+.at-input-group {
+  position: relative;
+}
+
+.at-input-group .at-input,
+.at-input-group .at-form-input {
+  padding-left: 36px;
+}
+
+.at-input-group__icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--admin-text-3);
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+}
+
+/* ============================================================
+   Custom checkbox (.at-check)
+   ============================================================ */
+
+.at-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--admin-font-size-base);
+}
+
+.at-check input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.at-check__box {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--admin-radius-sm);
+  background: var(--admin-surface);
+  border: 1.5px solid var(--admin-border);
+  display: grid;
+  place-items: center;
+  transition: background .12s, border-color .12s;
+  flex: 0 0 auto;
+}
+
+.at-check__box svg {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity .12s, transform .12s;
+  color: #fff;
+}
+
+.at-check input:checked + .at-check__box {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+}
+
+.at-check input:checked + .at-check__box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.at-check input:focus-visible + .at-check__box {
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+
+.at-check input:disabled + .at-check__box {
+  background: var(--admin-surface-2);
+  border-color: var(--admin-border);
+}
+
+.at-check.is-disabled {
+  color: var(--admin-text-3);
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Custom radio (.at-radio)
+   ============================================================ */
+
+.at-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--admin-font-size-base);
+}
+
+.at-radio input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.at-radio__dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--admin-surface);
+  border: 1.5px solid var(--admin-border);
+  display: grid;
+  place-items: center;
+  transition: border-color .12s;
+  flex: 0 0 auto;
+}
+
+.at-radio__dot::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--admin-accent);
+  transform: scale(0);
+  transition: transform .12s;
+}
+
+.at-radio input:checked + .at-radio__dot {
+  border-color: var(--admin-accent);
+}
+
+.at-radio input:checked + .at-radio__dot::after {
+  transform: scale(1);
+}
+
+.at-radio input:focus-visible + .at-radio__dot {
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+
+/* ============================================================
+   Toggle switch (.at-toggle)
+   ============================================================ */
+
+.at-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.at-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.at-toggle__track {
+  width: 36px;
+  height: 20px;
+  border-radius: var(--admin-radius-full);
+  background: #d6d3e6;
+  position: relative;
+  transition: background .15s;
+  flex: 0 0 auto;
+}
+
+.at-toggle__track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(20, 18, 35, 0.15);
+  transition: transform .18s cubic-bezier(.2, .8, .2, 1);
+}
+
+.at-toggle input:checked + .at-toggle__track {
+  background: var(--admin-accent);
+}
+
+.at-toggle input:checked + .at-toggle__track::after {
+  transform: translateX(16px);
+}
+
+.at-toggle input:focus-visible + .at-toggle__track {
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+
+/* ============================================================
+   Tag input (.at-tags / .at-tag)
+   ============================================================ */
+
+.at-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  padding: 6px 8px;
+  min-height: 38px;
+  transition: border-color .12s, box-shadow .12s;
+}
+
+.at-tags:focus-within {
+  border-color: var(--admin-border-focus);
+  box-shadow: 0 0 0 3px var(--admin-accent-light);
+}
+
+.at-tags > input {
+  flex: 1 1 80px;
+  min-width: 80px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  padding: 4px;
+  color: var(--admin-text);
+}
+
+.at-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px 2px 10px;
+  background: var(--admin-accent-light);
+  color: var(--admin-accent-text);
+  border-radius: var(--admin-radius-full);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+}
+
+.at-tag button {
+  background: transparent;
+  border: 0;
+  color: var(--admin-accent-text);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 50%;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+}
+
+.at-tag button:hover {
+  background: rgba(76, 53, 196, 0.15);
+}

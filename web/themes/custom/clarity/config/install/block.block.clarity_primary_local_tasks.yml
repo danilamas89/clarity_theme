@@ -1,0 +1,22 @@
+uuid: 18860394-6bfa-4bf9-b81b-bee2a38cf3c2
+langcode: en
+status: true
+dependencies:
+  theme:
+    - clarity
+_core:
+  default_config_hash: ACjBZI5shAMiiUpsz-inLYVXDqNNXRnSzAWV3kV_8Hw
+id: clarity_primary_local_tasks
+theme: clarity
+region: header
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

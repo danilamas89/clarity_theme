@@ -1,0 +1,22 @@
+uuid: d8e24036-5a4e-40e7-bdd8-7ba1cc5bf394
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - clarity
+_core:
+  default_config_hash: jccFSSVqV0WCDb6NtML1VWAWTtDbZ-zn5YgTRMgMrIM
+id: clarity_help
+theme: clarity
+region: help
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

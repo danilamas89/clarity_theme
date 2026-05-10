@@ -1,0 +1,20 @@
+uuid: a905ccba-e7c8-4ad8-9577-b037ae121e89
+langcode: en
+status: true
+dependencies:
+  theme:
+    - clarity
+_core:
+  default_config_hash: CdXfDmRgAvms7EQovxxWPdYi0GitxeRbVtScYK16ZH0
+id: clarity_local_actions
+theme: clarity
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

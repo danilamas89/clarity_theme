@@ -7,13 +7,15 @@
    Table wrapper (enables horizontal scroll on small screens)
    ============================================================ */
 
-.at-table-wrapper {
+.at-table-wrapper,
+.at-table-wrap {
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--admin-border);
   border-radius: var(--admin-radius-lg);
   background-color: var(--admin-surface);
-  box-shadow: var(--admin-shadow-sm);
+  box-shadow: var(--admin-shadow-card);
+  overflow: hidden;
 }
 
 /* ============================================================
@@ -310,3 +312,22 @@
   font-size: var(--admin-font-size-sm);
   color: var(--admin-text-2);
 }
+
+/* Design-system toolbar elements */
+.at-table-toolbar__title {
+  font-size: var(--admin-font-size-base);
+  font-weight: 600;
+  color: var(--admin-text);
+}
+
+.at-table-toolbar__spacer {
+  flex: 1;
+}
+
+/* ============================================================
+   Cell helpers
+   ============================================================ */
+
+.at-table .at-cell-muted { color: var(--admin-text-2); }
+.at-table .at-cell-check { width: 32px; padding-right: 0; }
+.at-table .at-cell-actions { width: 1px; white-space: nowrap; text-align: right; }
