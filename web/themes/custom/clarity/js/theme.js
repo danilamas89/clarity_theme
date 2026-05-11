@@ -167,6 +167,7 @@
           widget.style.right = (window.innerWidth - rect.right) + 'px';
           widget.style.left = 'auto';
           widget.style.minWidth = rect.width + 'px';
+          widget.style.zIndex = '9999';
         });
 
         wrapper.addEventListener('mouseleave', () => {
@@ -175,6 +176,7 @@
           widget.style.right = '';
           widget.style.left = '';
           widget.style.minWidth = '';
+          widget.style.zIndex = '';
         });
       });
     },
