@@ -3,6 +3,13 @@
  * All values via --admin-* tokens only.
  */
 
+/* Drupal's sticky header JS sets position:sticky + a z-index on thead,
+   which creates a stacking context that puts the table above the sidebar
+   flyout. Reset to 0 so flyouts render on top. */
+table.sticky-header thead {
+  z-index: 0;
+}
+
 /* ============================================================
    Table wrapper (enables horizontal scroll on small screens)
    ============================================================ */
