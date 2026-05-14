@@ -364,13 +364,47 @@ Two key screens define the visual identity:
 
 ---
 
+## Drupal Behaviors (js/theme.js)
+
+All theme behaviors are registered via `Drupal.behaviors` in `js/theme.js`:
+
+- `clarityInit` — initializes Alpine stores (`sidebar`, `theme`)
+- `claritySidebarOverlay` — closes the sidebar on mobile when clicking the overlay
+- `clarityAutoDismiss` — auto-dismisses messages that have a `data-auto-dismiss` attribute
+- `clarityDropbutton` — repositions dropbutton dropdowns using `fixed` positioning to escape `overflow` clipping in table wrappers
+- `clarityNavFlyout` — aligns sub-menus using `fixed` positioning so they are never clipped by the sidebar
+- `clarityNodeAddList` — makes `<dd>` elements in the node-add list fully clickable
+- `clarityFocusTrap` — traps focus inside modals for accessibility compliance
+
+---
+
+## Drush commands
+
+All Drush commands run inside the Docker container:
+
+```bash
+# Clear all caches — run after EVERY file change (CSS, JS, Twig, PHP, YML)
+docker compose exec php drush cr
+
+# Export active config to files
+docker compose exec php drush cex
+
+# Import config from files into the database
+docker compose exec php drush cim
+```
+
+**Rule:** after modifying any theme file, always run `docker compose exec php drush cr` before testing in the browser.
+
+---
+
 ## Development workflow
 
 1. Implement one component at a time
-2. Test on a real Drupal instance with actual content
-3. Check rendering with common contrib modules (Admin Toolbar, Webform, etc.)
-4. Verify accessibility before considering a component done
-5. Commit the component with a descriptive message
+2. Run `docker compose exec php drush cr` after every file change
+3. Test on a real Drupal instance with actual content
+4. Check rendering with common contrib modules (Admin Toolbar, Webform, etc.)
+5. Verify accessibility before considering a component done
+6. Commit the component with a descriptive message
 
 ---
 
