@@ -1,26 +1,27 @@
 /**
  * dropbutton.css — Split button for operations columns (admin/content et al.)
  *
- * Drupal renders (dropbutton.html.twig):
+ * Real DOM structure (Drupal 10/11):
  *
  *   .dropbutton-wrapper.dropbutton-multiple
- *     .dropbutton-widget                      ← flex row: list + toggle
- *       ul.dropbutton
- *         li.dropbutton-action > a            ← primary (Edit)
- *         li.secondary-action > a             ← View
- *         li.secondary-action > a             ← Delete
- *       .dropbutton-toggle > button           ← chevron (sibling of ul)
+ *     .dropbutton-widget                                    ← position:relative
+ *       ul.dropbutton                                       ← flex row
+ *         li.dropbutton-action > a                          ← primary (Edit)
+ *         li.dropbutton-toggle > button > .dropbutton-arrow ← chevron
+ *         li.dropbutton-action.secondary-action > a         ← hidden by default
+ *         li.dropbutton-action.secondary-action > a         ← hidden by default
  *
  * Drupal core JS:
- *   - Adds class "open" to .dropbutton-widget on toggle click.
+ *   - Adds class "open" to .dropbutton-multiple (the wrapper) on toggle click.
  *   - The clarityDropbutton behavior (theme.js) switches .dropbutton-widget
  *     to position:fixed on mouseenter to escape overflow clipping, then resets
  *     on mouseleave. Do NOT add overflow:hidden to the wrapper or widget.
  *
  * Positioning strategy:
- *   .dropbutton-widget is position:relative → absolute children anchor to it.
- *   When JS sets position:fixed, absolute children anchor to the fixed rect,
- *   so the dropdown stays visually correct.
+ *   .dropbutton-widget is position:relative — secondary actions use
+ *   position:absolute anchored to it. top:100% lands directly below the
+ *   button row. When JS sets position:fixed on the widget, absolutely
+ *   positioned children still anchor to it correctly.
  *
  * All values via --admin-* tokens only.
  */
@@ -37,52 +38,50 @@
 }
 
 /* ============================================================
-   Widget shell — the visible accent-colored pill
+   Widget shell — flex anchor for secondary action panel
    ============================================================ */
 
 .dropbutton-widget {
   display: flex;
   align-items: stretch;
-  position: relative;                        /* anchor for dropdown */
+  position: relative;                        /* anchor for secondary actions */
   border-radius: var(--admin-radius-md);
-  /* No background, border, or shadow here — all visual styling lives on
-     the clickable elements so the visual size exactly matches the clickable area. */
 }
 
 /* ============================================================
-   Primary actions list
+   ul.dropbutton — flex row: Edit + toggle side by side
    ============================================================ */
-
-/* Override global li { margin-bottom: 4px } from base.css.
-   !important overrides Drupal core dropbutton.css which sets display:table-cell
-   or display:flex on these li elements. */
-.dropbutton-widget li,
-.dropbutton-multiple li {
-  display: block !important;
-  width: 100%;
-  margin-bottom: 0;
-}
 
 .dropbutton-widget ul.dropbutton {
   list-style: none;
   margin: 0;
   padding: 0;
-  margin-top: 0;
-  padding-top: 0;
+  display: flex !important;
+  flex-direction: row;
+  align-items: stretch;
+  /* Static + visible so secondary action absolute children escape cleanly */
+  position: static;
+  overflow: visible;
+}
+
+/* Override global li { margin-bottom: 4px } from base.css */
+.dropbutton-widget ul.dropbutton li {
   display: block !important;
+  margin-bottom: 0;
 }
 
 /* ============================================================
-   Primary action — Edit
+   Primary action — Edit (first li, not secondary)
    ============================================================ */
 
-.dropbutton-widget li.dropbutton-action {
-  display: flex;
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) {
+  display: flex !important;
   align-items: stretch;
+  flex: 0 0 auto;
 }
 
-.dropbutton-widget li.dropbutton-action a,
-.dropbutton-widget li.dropbutton-action button {
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) a,
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) button {
   display: flex;
   align-items: center;
   align-self: stretch;
@@ -103,38 +102,38 @@
   transition: background-color var(--admin-transition-fast);
 }
 
-.dropbutton-widget li.dropbutton-action a:hover,
-.dropbutton-widget li.dropbutton-action button:hover {
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) a:hover,
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) button:hover {
   background-color: #5a40d8;
   color: #ffffff;
   text-decoration: none;
 }
 
-.dropbutton-widget li.dropbutton-action a:active,
-.dropbutton-widget li.dropbutton-action button:active {
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) a:active,
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) button:active {
   background-color: var(--admin-accent-text);
 }
 
-.dropbutton-widget li.dropbutton-action a:focus-visible,
-.dropbutton-widget li.dropbutton-action button:focus-visible {
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) a:focus-visible,
+.dropbutton-widget li.dropbutton-action:not(.secondary-action) button:focus-visible {
   outline: 2px solid var(--admin-accent-light);
   outline-offset: -2px;
   border-radius: calc(var(--admin-radius-md) - 1px) 0 0 calc(var(--admin-radius-md) - 1px);
 }
 
 /* ============================================================
-   Toggle (chevron) — sibling of ul.dropbutton
+   Toggle — li.dropbutton-toggle (second li in ul.dropbutton)
    ============================================================ */
 
-.dropbutton-widget .dropbutton-toggle {
-  display: flex;
+.dropbutton-widget li.dropbutton-toggle {
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  flex: 0 0 auto;
   border-left: 1px solid rgba(255 255 255 / 0.28);
 }
 
-.dropbutton-widget .dropbutton-toggle button {
+.dropbutton-widget li.dropbutton-toggle button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,10 +150,8 @@
 
 /* Chevron arrow — .dropbutton-arrow is a flex centering container.
    The actual triangle lives on ::before so the element can have height:100%
-   without breaking the border-triangle technique (which requires height:0).
-   flex-shrink:0 + align-self:center on ::before prevent the flex algorithm
-   from discarding or resizing the zero-dimension border triangle. */
-.dropbutton-widget .dropbutton-toggle button .dropbutton-arrow {
+   without breaking the border-triangle technique (which requires height:0). */
+.dropbutton-widget li.dropbutton-toggle button .dropbutton-arrow {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,7 +159,7 @@
   transition: transform var(--admin-transition-fast);
 }
 
-.dropbutton-widget .dropbutton-toggle button .dropbutton-arrow::before {
+.dropbutton-widget li.dropbutton-toggle button .dropbutton-arrow::before {
   display: block;
   content: '';
   width: 0;
@@ -175,80 +172,70 @@
 /* Drupal puts a <span class="visually-hidden"> inside .dropbutton-arrow.
    Its text is visually hidden by Drupal's own CSS — no extra work needed. */
 
-.dropbutton-widget.open .dropbutton-toggle button .dropbutton-arrow {
+.dropbutton-multiple.open li.dropbutton-toggle button .dropbutton-arrow {
   transform: rotate(180deg);
 }
 
-.dropbutton-widget .dropbutton-toggle button:hover {
+.dropbutton-widget li.dropbutton-toggle button:hover {
   background-color: #5a40d8;
 }
 
-.dropbutton-widget .dropbutton-toggle button:active {
+.dropbutton-widget li.dropbutton-toggle button:active {
   background-color: var(--admin-accent-text);
 }
 
-.dropbutton-widget .dropbutton-toggle button:focus-visible {
+.dropbutton-widget li.dropbutton-toggle button:focus-visible {
   outline: 2px solid var(--admin-accent-light);
   outline-offset: -2px;
   border-radius: 0 calc(var(--admin-radius-md) - 1px) calc(var(--admin-radius-md) - 1px) 0;
 }
 
 /* ============================================================
-   Secondary actions — dropdown panel
+   Secondary actions — absolutely positioned below the widget
    ============================================================ */
 
-/* Hidden by default; Drupal JS adds .open to .dropbutton-widget */
-.dropbutton-widget li.secondary-action {
-  display: none;
-}
-
-.dropbutton-widget.open li.secondary-action {
-  display: block;
-}
-
-/* Position each secondary item as an absolute card below the widget.
-   They anchor to .dropbutton-widget (position:relative).
-   Min-width 130px; right-aligned under the toggle.
-
-   Items stack using nth-of-type. The common cases are 1–3 secondary actions.
-   Each item row is 32px tall (30px content + top/bottom padding resolved to 1px). */
-
-.dropbutton-widget li.secondary-action {
-  position: static;
+/* Hidden by default; .dropbutton-multiple.open reveals them.
+   position:absolute anchors to .dropbutton-widget (nearest positioned ancestor).
+   top:100% = directly below the button row height.
+   !important overrides Drupal core's .dropbutton-multiple .secondary-action { display:none } */
+.dropbutton-widget li.dropbutton-action.secondary-action {
+  display: none !important;
+  position: absolute;
+  left: 0;
   min-width: 130px;
   background-color: var(--admin-surface);
   border: 1px solid var(--admin-border);
-  box-shadow: var(--admin-shadow-md);
   z-index: var(--admin-z-dropdown);
+  box-sizing: border-box;
 }
 
-/* Stack positions — flush against the button bottom (top:100%, no gap).
-   nth-of-type counts ALL li siblings, so li.dropbutton-action is :nth-of-type(1).
-   First secondary-action = :nth-of-type(2), second = :nth-of-type(3), etc.
-   Each item row is 32px tall (padding: 4px * 2 + ~14px content). */
-.dropbutton-widget li.secondary-action:nth-of-type(2) {
-  margin-top: 0;
-  padding-top: 0;
+.dropbutton-multiple.open .dropbutton-widget li.dropbutton-action.secondary-action {
+  display: block !important;
+}
+
+/* Stacked positions anchored to .dropbutton-widget (position:relative).
+   top:100% = below the button row. Each row is ~32px (min-height on the link).
+   nth-of-type counts all li siblings in ul.dropbutton:
+     :nth-of-type(1) = Edit
+     :nth-of-type(2) = toggle
+     :nth-of-type(3) = 1st secondary
+     :nth-of-type(4) = 2nd secondary */
+
+.dropbutton-widget li.dropbutton-action.secondary-action:nth-of-type(3) {
+  top: 100%;
+  box-shadow: var(--admin-shadow-md);
   border-radius: var(--admin-radius-md) var(--admin-radius-md) 0 0;
 }
 
-.dropbutton-widget li.secondary-action:nth-of-type(3) {
+.dropbutton-widget li.dropbutton-action.secondary-action:nth-of-type(4) {
+  top: calc(100% + 32px);
   border-top: none;
-  border-radius: 0;
-}
-
-.dropbutton-widget li.secondary-action:nth-of-type(4) {
-  border-top: none;
-  border-radius: 0;
-}
-
-/* Last item always gets rounded bottom corners */
-.dropbutton-widget li.secondary-action:last-of-type {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07);
   border-radius: 0 0 var(--admin-radius-md) var(--admin-radius-md);
 }
 
 /* Single secondary action: full rounding */
-.dropbutton-widget li.secondary-action:only-of-type {
+.dropbutton-widget li.dropbutton-action.secondary-action:nth-of-type(3):last-of-type {
   border-radius: var(--admin-radius-md);
 }
 
@@ -256,8 +243,8 @@
    Secondary action links
    ============================================================ */
 
-.dropbutton-widget li.secondary-action a,
-.dropbutton-widget li.secondary-action button {
+.dropbutton-widget li.dropbutton-action.secondary-action a,
+.dropbutton-widget li.dropbutton-action.secondary-action button {
   display: flex;
   align-items: center;
   gap: var(--admin-space-2);
@@ -277,31 +264,31 @@
   min-height: 32px;
 }
 
-.dropbutton-widget li.secondary-action a:hover,
-.dropbutton-widget li.secondary-action button:hover {
+.dropbutton-widget li.dropbutton-action.secondary-action a:hover,
+.dropbutton-widget li.dropbutton-action.secondary-action button:hover {
   background-color: var(--admin-surface-2);
   color: var(--admin-text);
   text-decoration: none;
 }
 
-.dropbutton-widget li.secondary-action a:active,
-.dropbutton-widget li.secondary-action button:active {
+.dropbutton-widget li.dropbutton-action.secondary-action a:active,
+.dropbutton-widget li.dropbutton-action.secondary-action button:active {
   background-color: var(--admin-border);
 }
 
-.dropbutton-widget li.secondary-action a:focus-visible,
-.dropbutton-widget li.secondary-action button:focus-visible {
+.dropbutton-widget li.dropbutton-action.secondary-action a:focus-visible,
+.dropbutton-widget li.dropbutton-action.secondary-action button:focus-visible {
   outline: none;
   background-color: var(--admin-accent-light);
   color: var(--admin-accent-text);
 }
 
 /* Delete action */
-.dropbutton-widget li.secondary-action a[href*="delete"] {
+.dropbutton-widget li.dropbutton-action.secondary-action a[href*="delete"] {
   color: var(--admin-danger);
 }
 
-.dropbutton-widget li.secondary-action a[href*="delete"]:hover {
+.dropbutton-widget li.dropbutton-action.secondary-action a[href*="delete"]:hover {
   background-color: var(--admin-danger-bg);
   color: var(--admin-danger);
 }
@@ -310,8 +297,8 @@
    Icons (CSS mask + SVG data URI)
    ============================================================ */
 
-/* Eye icon — "View" links (links that don't contain "delete") */
-.dropbutton-widget li.secondary-action a:not([href*="delete"])::before {
+/* Eye icon — "View" links */
+.dropbutton-widget li.dropbutton-action.secondary-action a:not([href*="delete"])::before {
   content: '';
   display: inline-block;
   flex-shrink: 0;
@@ -329,7 +316,7 @@
 }
 
 /* Trash icon — "Delete" links */
-.dropbutton-widget li.secondary-action a[href*="delete"]::before {
+.dropbutton-widget li.dropbutton-action.secondary-action a[href*="delete"]::before {
   content: '';
   display: inline-block;
   flex-shrink: 0;
@@ -359,20 +346,21 @@
    RTL
    ============================================================ */
 
-[dir="rtl"] .dropbutton-widget li.dropbutton-action a,
-[dir="rtl"] .dropbutton-widget li.dropbutton-action button {
+[dir="rtl"] .dropbutton-widget li.dropbutton-action:not(.secondary-action) a,
+[dir="rtl"] .dropbutton-widget li.dropbutton-action:not(.secondary-action) button {
   border-radius: 0 calc(var(--admin-radius-md) - 1px) calc(var(--admin-radius-md) - 1px) 0;
 }
 
-[dir="rtl"] .dropbutton-widget .dropbutton-toggle {
+[dir="rtl"] .dropbutton-widget li.dropbutton-toggle {
   border-left: none;
   border-right: 1px solid rgba(255 255 255 / 0.28);
 }
 
-[dir="rtl"] .dropbutton-widget .dropbutton-toggle button {
+[dir="rtl"] .dropbutton-widget li.dropbutton-toggle button {
   border-radius: calc(var(--admin-radius-md) - 1px) 0 0 calc(var(--admin-radius-md) - 1px);
 }
 
-[dir="rtl"] .dropbutton-widget li.secondary-action {
-  /* position:static — li flows naturally inside ul.dropbutton */
+[dir="rtl"] .dropbutton-widget li.dropbutton-action.secondary-action {
+  left: auto;
+  right: 0;
 }
