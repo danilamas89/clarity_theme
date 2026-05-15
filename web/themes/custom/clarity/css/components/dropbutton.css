@@ -1,0 +1,378 @@
+/**
+ * dropbutton.css — Split button for operations columns (admin/content et al.)
+ *
+ * Drupal renders (dropbutton.html.twig):
+ *
+ *   .dropbutton-wrapper.dropbutton-multiple
+ *     .dropbutton-widget                      ← flex row: list + toggle
+ *       ul.dropbutton
+ *         li.dropbutton-action > a            ← primary (Edit)
+ *         li.secondary-action > a             ← View
+ *         li.secondary-action > a             ← Delete
+ *       .dropbutton-toggle > button           ← chevron (sibling of ul)
+ *
+ * Drupal core JS:
+ *   - Adds class "open" to .dropbutton-widget on toggle click.
+ *   - The clarityDropbutton behavior (theme.js) switches .dropbutton-widget
+ *     to position:fixed on mouseenter to escape overflow clipping, then resets
+ *     on mouseleave. Do NOT add overflow:hidden to the wrapper or widget.
+ *
+ * Positioning strategy:
+ *   .dropbutton-widget is position:relative → absolute children anchor to it.
+ *   When JS sets position:fixed, absolute children anchor to the fixed rect,
+ *   so the dropdown stays visually correct.
+ *
+ * All values via --admin-* tokens only.
+ */
+
+/* ============================================================
+   Wrapper
+   ============================================================ */
+
+.dropbutton-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* ============================================================
+   Widget shell — the visible accent-colored pill
+   ============================================================ */
+
+.dropbutton-widget {
+  display: flex;
+  align-items: stretch;
+  position: relative;                        /* anchor for dropdown */
+  border-radius: var(--admin-radius-md);
+  /* No background, border, or shadow here — all visual styling lives on
+     the clickable elements so the visual size exactly matches the clickable area. */
+}
+
+/* ============================================================
+   Primary actions list
+   ============================================================ */
+
+/* Override global li { margin-bottom: 4px } from base.css.
+   !important overrides Drupal core dropbutton.css which sets display:table-cell
+   or display:flex on these li elements. */
+.dropbutton-widget li,
+.dropbutton-multiple li {
+  display: block !important;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.dropbutton-widget ul.dropbutton {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin-top: 0;
+  padding-top: 0;
+  display: block !important;
+}
+
+/* ============================================================
+   Primary action — Edit
+   ============================================================ */
+
+.dropbutton-widget li.dropbutton-action {
+  display: flex;
+  align-items: stretch;
+}
+
+.dropbutton-widget li.dropbutton-action a,
+.dropbutton-widget li.dropbutton-action button {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding: 4px 10px;
+  line-height: 1.4;
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 500;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: var(--admin-accent);
+  border: 1px solid var(--admin-accent);
+  border-right: none;
+  box-shadow: var(--admin-shadow-sm);
+  cursor: pointer;
+  border-radius: calc(var(--admin-radius-md) - 1px) 0 0 calc(var(--admin-radius-md) - 1px);
+  transition: background-color var(--admin-transition-fast);
+}
+
+.dropbutton-widget li.dropbutton-action a:hover,
+.dropbutton-widget li.dropbutton-action button:hover {
+  background-color: #5a40d8;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.dropbutton-widget li.dropbutton-action a:active,
+.dropbutton-widget li.dropbutton-action button:active {
+  background-color: var(--admin-accent-text);
+}
+
+.dropbutton-widget li.dropbutton-action a:focus-visible,
+.dropbutton-widget li.dropbutton-action button:focus-visible {
+  outline: 2px solid var(--admin-accent-light);
+  outline-offset: -2px;
+  border-radius: calc(var(--admin-radius-md) - 1px) 0 0 calc(var(--admin-radius-md) - 1px);
+}
+
+/* ============================================================
+   Toggle (chevron) — sibling of ul.dropbutton
+   ============================================================ */
+
+.dropbutton-widget .dropbutton-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-left: 1px solid rgba(255 255 255 / 0.28);
+}
+
+.dropbutton-widget .dropbutton-toggle button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  padding: 4px 7px;
+  background-color: var(--admin-accent);
+  border: 1px solid var(--admin-accent);
+  box-shadow: var(--admin-shadow-sm);
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 0 calc(var(--admin-radius-md) - 1px) calc(var(--admin-radius-md) - 1px) 0;
+  transition: background-color var(--admin-transition-fast);
+}
+
+/* Chevron arrow — .dropbutton-arrow is a flex centering container.
+   The actual triangle lives on ::before so the element can have height:100%
+   without breaking the border-triangle technique (which requires height:0).
+   flex-shrink:0 + align-self:center on ::before prevent the flex algorithm
+   from discarding or resizing the zero-dimension border triangle. */
+.dropbutton-widget .dropbutton-toggle button .dropbutton-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: transform var(--admin-transition-fast);
+}
+
+.dropbutton-widget .dropbutton-toggle button .dropbutton-arrow::before {
+  display: block;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid white;
+}
+
+/* Drupal puts a <span class="visually-hidden"> inside .dropbutton-arrow.
+   Its text is visually hidden by Drupal's own CSS — no extra work needed. */
+
+.dropbutton-widget.open .dropbutton-toggle button .dropbutton-arrow {
+  transform: rotate(180deg);
+}
+
+.dropbutton-widget .dropbutton-toggle button:hover {
+  background-color: #5a40d8;
+}
+
+.dropbutton-widget .dropbutton-toggle button:active {
+  background-color: var(--admin-accent-text);
+}
+
+.dropbutton-widget .dropbutton-toggle button:focus-visible {
+  outline: 2px solid var(--admin-accent-light);
+  outline-offset: -2px;
+  border-radius: 0 calc(var(--admin-radius-md) - 1px) calc(var(--admin-radius-md) - 1px) 0;
+}
+
+/* ============================================================
+   Secondary actions — dropdown panel
+   ============================================================ */
+
+/* Hidden by default; Drupal JS adds .open to .dropbutton-widget */
+.dropbutton-widget li.secondary-action {
+  display: none;
+}
+
+.dropbutton-widget.open li.secondary-action {
+  display: block;
+}
+
+/* Position each secondary item as an absolute card below the widget.
+   They anchor to .dropbutton-widget (position:relative).
+   Min-width 130px; right-aligned under the toggle.
+
+   Items stack using nth-of-type. The common cases are 1–3 secondary actions.
+   Each item row is 32px tall (30px content + top/bottom padding resolved to 1px). */
+
+.dropbutton-widget li.secondary-action {
+  position: static;
+  min-width: 130px;
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  box-shadow: var(--admin-shadow-md);
+  z-index: var(--admin-z-dropdown);
+}
+
+/* Stack positions — flush against the button bottom (top:100%, no gap).
+   nth-of-type counts ALL li siblings, so li.dropbutton-action is :nth-of-type(1).
+   First secondary-action = :nth-of-type(2), second = :nth-of-type(3), etc.
+   Each item row is 32px tall (padding: 4px * 2 + ~14px content). */
+.dropbutton-widget li.secondary-action:nth-of-type(2) {
+  margin-top: 0;
+  padding-top: 0;
+  border-radius: var(--admin-radius-md) var(--admin-radius-md) 0 0;
+}
+
+.dropbutton-widget li.secondary-action:nth-of-type(3) {
+  border-top: none;
+  border-radius: 0;
+}
+
+.dropbutton-widget li.secondary-action:nth-of-type(4) {
+  border-top: none;
+  border-radius: 0;
+}
+
+/* Last item always gets rounded bottom corners */
+.dropbutton-widget li.secondary-action:last-of-type {
+  border-radius: 0 0 var(--admin-radius-md) var(--admin-radius-md);
+}
+
+/* Single secondary action: full rounding */
+.dropbutton-widget li.secondary-action:only-of-type {
+  border-radius: var(--admin-radius-md);
+}
+
+/* ============================================================
+   Secondary action links
+   ============================================================ */
+
+.dropbutton-widget li.secondary-action a,
+.dropbutton-widget li.secondary-action button {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-2);
+  width: 100%;
+  padding: var(--admin-space-2) var(--admin-space-3);
+  font-family: var(--admin-font);
+  font-size: var(--admin-font-size-sm);
+  font-weight: 400;
+  color: var(--admin-text);
+  text-decoration: none;
+  white-space: nowrap;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background var(--admin-transition-fast), color var(--admin-transition-fast);
+  box-sizing: border-box;
+  min-height: 32px;
+}
+
+.dropbutton-widget li.secondary-action a:hover,
+.dropbutton-widget li.secondary-action button:hover {
+  background-color: var(--admin-surface-2);
+  color: var(--admin-text);
+  text-decoration: none;
+}
+
+.dropbutton-widget li.secondary-action a:active,
+.dropbutton-widget li.secondary-action button:active {
+  background-color: var(--admin-border);
+}
+
+.dropbutton-widget li.secondary-action a:focus-visible,
+.dropbutton-widget li.secondary-action button:focus-visible {
+  outline: none;
+  background-color: var(--admin-accent-light);
+  color: var(--admin-accent-text);
+}
+
+/* Delete action */
+.dropbutton-widget li.secondary-action a[href*="delete"] {
+  color: var(--admin-danger);
+}
+
+.dropbutton-widget li.secondary-action a[href*="delete"]:hover {
+  background-color: var(--admin-danger-bg);
+  color: var(--admin-danger);
+}
+
+/* ============================================================
+   Icons (CSS mask + SVG data URI)
+   ============================================================ */
+
+/* Eye icon — "View" links (links that don't contain "delete") */
+.dropbutton-widget li.secondary-action a:not([href*="delete"])::before {
+  content: '';
+  display: inline-block;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Trash icon — "Delete" links */
+.dropbutton-widget li.secondary-action a[href*="delete"]::before {
+  content: '';
+  display: inline-block;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3 6 5 6 21 6'/%3E%3Cpath d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/%3E%3Cpath d='M10 11v6M14 11v6'/%3E%3Cpath d='M9 6V4h6v2'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3 6 5 6 21 6'/%3E%3Cpath d='M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6'/%3E%3Cpath d='M10 11v6M14 11v6'/%3E%3Cpath d='M9 6V4h6v2'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* ============================================================
+   Single-action (no toggle rendered) — plain accent button
+   ============================================================ */
+
+.dropbutton-wrapper:not(.dropbutton-multiple) .dropbutton-widget li.dropbutton-action a,
+.dropbutton-wrapper:not(.dropbutton-multiple) .dropbutton-widget li.dropbutton-action button {
+  border-radius: calc(var(--admin-radius-md) - 1px);
+}
+
+/* ============================================================
+   RTL
+   ============================================================ */
+
+[dir="rtl"] .dropbutton-widget li.dropbutton-action a,
+[dir="rtl"] .dropbutton-widget li.dropbutton-action button {
+  border-radius: 0 calc(var(--admin-radius-md) - 1px) calc(var(--admin-radius-md) - 1px) 0;
+}
+
+[dir="rtl"] .dropbutton-widget .dropbutton-toggle {
+  border-left: none;
+  border-right: 1px solid rgba(255 255 255 / 0.28);
+}
+
+[dir="rtl"] .dropbutton-widget .dropbutton-toggle button {
+  border-radius: calc(var(--admin-radius-md) - 1px) 0 0 calc(var(--admin-radius-md) - 1px);
+}
+
+[dir="rtl"] .dropbutton-widget li.secondary-action {
+  /* position:static — li flows naturally inside ul.dropbutton */
+}

@@ -408,6 +408,29 @@ docker compose exec php drush cim
 
 ---
 
+## Git workflow
+
+After every task that produces a confirmed working result, automatically run:
+
+1. git add -A web/themes/custom/clarity/
+2. git commit -m "<type>(<scope>): <short description>"
+
+Commit types: feat / fix / style / refactor
+Scope: the component name (e.g. dropbutton, buttons, forms, layout)
+
+Examples:
+- feat(dropbutton): split button base styles
+- fix(dropbutton): dropdown positioning and arrow alignment
+- style(buttons): reduce padding, fix hover state
+
+Rules:
+- Never commit if the user has not explicitly confirmed the result is working
+- Never commit files outside web/themes/custom/clarity/
+- Always use conventional commits format
+- Keep the message short and descriptive
+
+---
+
 ## Useful resources
 
 - [Drupal theming guide](https://www.drupal.org/docs/theming-drupal)
